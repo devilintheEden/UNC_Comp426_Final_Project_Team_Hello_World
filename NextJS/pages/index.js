@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import DownloadForm from '../components/DownloadForm.js'
+import FontProjectInterface from '../components/FontProjectInterface.js'
 
 export default function Home() {
   return (
@@ -10,8 +10,8 @@ export default function Home() {
       </Head>
 
       <main id='root'>
-        <h1>Download Sample Blank PDF</h1>
-        <DownloadForm/>
+        <h1>Font Project</h1>
+        <FontProjectInterface />
       </main>
 
       <style jsx global>{`
