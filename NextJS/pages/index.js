@@ -1,5 +1,10 @@
 import Head from 'next/head'
+
+import DownloadForm from '../components/DownloadForm.js'
+import Pagination from '../components/Pagination'
+import ProjectDetail from '../components/ProjectDetail.js'
 import FontProjectInterface from '../components/FontProjectInterface.js'
+
 
 export default function Home() {
   return (
@@ -12,7 +17,12 @@ export default function Home() {
       <main id='root'>
         <h1>Font Project</h1>
         <FontProjectInterface />
+        <ProjectDetail />
       </main>
+
+      {/* 
+      
+      If using tachyons, no need to have an extra style. 
 
       <style jsx global>{`
         html,
@@ -27,7 +37,7 @@ export default function Home() {
         * {
           box-sizing: border-box;
         }
-      `}</style>
+      `}</style> */}
     </div>
   )
 }
