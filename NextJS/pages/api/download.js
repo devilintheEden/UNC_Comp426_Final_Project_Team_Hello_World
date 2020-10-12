@@ -1,11 +1,17 @@
-import {spawnSync} from 'child_process'
+import { spawnSync } from 'child_process';
+const path = require("path");
 
 export default (req, res) => {
-    if (req.method === 'POST') {
-        let data = req.body;
-    spawnSync('python3', ['./public/generate_ttf_related.py', '0', data.usr_id.toString(), data.w, data.h]);
-    //spawnSync('python3', ['./public/dummy.py','0', data.usr_id.toString(), data.w, data.h])
-    //if you are using windows, you should probably change 'python3' to where your python.exe is at, e.g. C:/Python38/python.exe
+    try {
+        if (req.method === 'POST') {
+            let data = req.body;
+            spawnSync('python3', [path.join('public','generate_ttf_related.py'), '0', data.usr_id.toString(), data.project_name, data.w, data.h]);
+            //spawnSync('python3', ['./public/dummy.py',' 0', data.usr_id.toString(), data.w, data.h])
+        } else {
+            throw String("Method not allowed");
+        }
+    } catch (error) {
+        res.status(400).json({ message: JSON.stringify(error, null, 2) });
     }
     return res.status(200).end();
 }
