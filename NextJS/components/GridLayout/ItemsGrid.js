@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import CharSVG from '../FontProject/CharSVG'
 import charIdx from '../FontProject/charIdx'
 import Grid from './grid'
