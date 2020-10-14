@@ -69,7 +69,7 @@ def generate_blank_pdf_sample(usr_id, project_name, w, h):
                                 str(h) + '.pdf'), "PDF", resolution=100.0, save_all=True, append_images=images[1:])
 
 
-def create_svg_from_pdf(usr_id, project_name, upload_file_name, w, h):
+def create_svg_from_pdf(usr_id, project_name, upload_file_name, w, h, number):
     upload_folder_path = os.path.join(BASE_PATH, "Users", str(
         usr_id), 'Projects', project_name, 'Uploads')
     helper_create_path(upload_folder_path)
@@ -91,15 +91,13 @@ def create_svg_from_pdf(usr_id, project_name, upload_file_name, w, h):
                                   upper_padding + j * (grid_edge + grid_interval))
                 cropped_image = image.crop((left_up_corner[0] + w_offset + 4, left_up_corner[1] + grid_interval + h_offset + 4,
                                             left_up_corner[0] + grid_edge - w_offset, left_up_corner[1] + grid_edge + grid_interval - h_offset))
-                save_file_path = os.path.join(
-                    upload_folder_path, 'Images_From_PDF')
+                save_file_path = os.path.join(upload_folder_path, 'Images_From_PDF')
                 helper_create_path(save_file_path)
-                cropped_image.save(os.path.join(
-                    save_file_path, str(k) + '.bmp'))
-                subprocess.run(["potrace", "-s", os.path.join(save_file_path, str(
-                    k) + '.bmp'), "-o", os.path.join(save_file_path, str(k) + '.svg')])
-                subprocess.run(
-                    ["rm", os.path.join(save_file_path, str(k) + '.bmp')])
+                cropped_image.save(os.path.join(save_file_path, str(k) + '.bmp'))
+                subprocess.call(["potrace", "-s", os.path.join(save_file_path, str(k) + '.bmp'), "-o", os.path.join(save_file_path, str(k) + '_' + number + '.svg')])
+                subprocess.call(["rm", os.path.join(save_file_path, str(k) + '.bmp')])
+                if(os.path.exists(os.path.join(save_file_path, str(k) + '_' + str(int(number) - 1) +'.svg'))):
+                    subprocess.call(["rm", os.path.join(save_file_path, str(k) + '_' + str(int(number) - 1) +'.svg')])
                 k = k + 1
             if(k >= len(ALL_CHARS)):
                 break
@@ -137,9 +135,9 @@ if __name__ == '__main__':
         generate_blank_pdf_sample(int(arguments[1]), arguments[2], int(
             arguments[3]), int(arguments[4]))
     elif(arguments[0] == '1'):
-        # mode=1,usr_id,project_name,upload_file_name,grid_width,grid_height
+        # mode=1,usr_id,project_name,upload_file_name,grid_width,grid_height, uploaded
         create_svg_from_pdf(int(arguments[1]), arguments[2], arguments[3], int(
-            arguments[4]), int(arguments[5]))
+            arguments[4]), int(arguments[5]), arguments[6])
     elif(arguments[0] == '2'):
         # mode=2,usr_id,project_name,font_name
         generate_TTF_from_SVG(int(arguments[1]), arguments[2], arguments[3])

@@ -1,5 +1,7 @@
 # UNC_Comp426_Final_Project_Team_Hello_World
 
+10.14.2020 Use CSS framework **Tachyons**, first UI with uploaded image show, full TTF download supported 
+
 10.03.2020 - nextjs app providing sample pdf downloading with input validation
 
 To run the project, make sure that you have node and npm install. Then download the sample project via

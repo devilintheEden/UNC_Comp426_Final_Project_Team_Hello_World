@@ -1,4 +1,4 @@
-import formidable from "formidable";
+const formidable = require("formidable-serverless");
 import { spawnSync } from 'child_process';
 const fs = require("fs");
 const path = require("path");
@@ -29,7 +29,7 @@ const uploadForm = next => async (req, res) => {
                                 return console.error(err);
                             }
                             fs.renameSync(files.file.path, path.join(target_dir, `/${files.file.name}`));
-                            spawnSync('python3', [path.join('public','generate_ttf_related.py'), '1', data.usr_id.toString(), data.project_name, files.file.name, data.pdfWH.width, data.pdfWH.height]);
+                            spawnSync('python3', [path.join('public','generate_ttf_related.py'), '1', `${data.usr_id}`, data.project_name, files.file.name, data.pdfWH.width, data.pdfWH.height, `${data.uploaded + 1}`]);
                         });
                     } else {
                         fs.readdir(target_dir, (err_1, files_1) => {
@@ -42,7 +42,7 @@ const uploadForm = next => async (req, res) => {
                                 }
                             }
                             fs.renameSync(files.file.path, path.join(target_dir, `/${files.file.name}`));
-                            spawnSync('python3', [path.join('public','generate_ttf_related.py'), '1', data.usr_id.toString(), data.project_name, files.file.name, data.pdfWH.width, data.pdfWH.height]);
+                            spawnSync('python3', [path.join('public','generate_ttf_related.py'), '1', `${data.usr_id}`, data.project_name, files.file.name, data.pdfWH.width, data.pdfWH.height, `${data.uploaded + 1}`]);
                         });
                     }
                     req.form = { fields, files };

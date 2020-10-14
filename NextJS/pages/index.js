@@ -1,6 +1,5 @@
 import Head from 'next/head'
 
-import ItemsGrid from '../components//GridLayout/ItemsGrid'
 import FontProjectInterface from '../components/FontProjectInterface.js'
 
 
@@ -8,16 +7,13 @@ export default function Home() {
   return (
     <div className="container">
       <Head>
-        <title>Create Next App</title>
+        <title>Font Project</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main id='root'>
-        <h1>Font Project</h1>
+      <main id='root' className="pa0 w-100 min-h-100">
         <FontProjectInterface />
-        <ItemsGrid col='3' row='4' count='95' type='char' />
       </main>
-
     </div>
   )
 }
