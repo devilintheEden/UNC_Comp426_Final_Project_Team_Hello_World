@@ -2,6 +2,7 @@ import DownloadPDFForm from "./GeneTTFRelated/DownloadPDFForm";
 import UploadPDFForm from "./GeneTTFRelated/UploadPDFForm";
 import ShowCaseSVG from "./ShowCaseSVG/ShowCaseSVG";
 import GenerateTTF from "./GeneTTFRelated/GenerateTTF";
+import Header from "./Header/Header";
 
 export default class FontProjectInterface extends React.Component {
 
@@ -27,6 +28,7 @@ export default class FontProjectInterface extends React.Component {
                 <div className="bg-light-blue h-100 dtc v-top" >
                     <div className="center">
                     <h2 className="mt0 mb2 pa2">Font Project</h2>
+                    <Header />
                     <DownloadPDFForm project_name={this.state.project_name} usr_id={this.usr_id} updateProjectWH={this.handleDownloadSubmit} />
                     <UploadPDFForm project_name={this.state.project_name} usr_id={this.usr_id} pdfWH={this.state} hasUploaded={this.handleUploadSubmit} uploaded={this.state.uploaded}/>
                     <GenerateTTF project_name={this.state.project_name} usr_id={this.usr_id} bool_prep={this.state.uploaded} />
