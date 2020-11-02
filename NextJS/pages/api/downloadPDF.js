@@ -8,10 +8,11 @@ export default (req, res) => {
             if (new Date() - new Date(data.timeStamp) < 1000) {
                 spawnSync("python3", [
                     path.join("public", "generate_ttf_related.py"),
-                    "2",
+                    "0",
                     data.usr_id.toString(),
                     data.project_name,
-                    data.font_name,
+                    data.w,
+                    data.h,
                 ]);
                 //spawnSync('python3', ['./public/dummy.py',' 0', data.usr_id.toString(), data.w, data.h])
             } else {

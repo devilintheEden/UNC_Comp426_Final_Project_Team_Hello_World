@@ -8,12 +8,18 @@
     "start": "next start"
   },
   "dependencies": {
+    "bootstrap-icons": "^1.0.0",
+    "crypto-random-string": "^3.3.0",
     "form-data": "3.0.0",
     "formidable-serverless": "^1.0.3",
     "isomorphic-unfetch": "3.1.0",
-    "next": "^9.5.5",
+    "mongoose": "^5.10.9",
+    "next": "^10.0.0",
+    "nodemailer": "^6.4.14",
     "react": "16.13.1",
-    "react-dom": "16.13.1",
+    "react-dom": "^16.13.1",
+    "react-html-parser": "^2.0.2",
+    "reactjs-popup": "^2.0.4",
     "tachyons": "^4.12.0"
   }
 }
