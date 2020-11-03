@@ -1,1 +1,1 @@
-# COVID-CAT
+# community page and project display
