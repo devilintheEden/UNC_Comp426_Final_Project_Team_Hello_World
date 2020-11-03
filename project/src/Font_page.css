@@ -1,0 +1,59 @@
+.top{
+  display: flex;
+  justify-content: left;
+  align-self: center; 
+}
+
+.font-name{
+  text-align: left;
+  width: 80vh;
+}
+
+.favorite-button{
+  height: 1cm;
+  margin-right: 3.5cm;
+  margin-top: 0.4cm;
+}
+
+.download-button{
+  height: 1cm;
+  margin-top: 0.4cm;
+}
+
+.mid {
+  font-size: large;
+  display: flex;
+  justify-content: left;
+  align-self: center; 
+}
+
+ .font-info{
+  width: 80vh;
+}
+
+.font-type{
+  flex: 0 0 200px;
+}
+
+.bottom{
+  display: flex;
+  justify-content: left;
+  align-self: center; 
+}
+
+.textbox{
+  height: 5cm;
+  width: 75vh;
+  margin-right: 0.7cm;
+}
+
+.font-tags{
+  height: 10vh;
+  max-width: 60vh;
+}
+
+.font-author{
+  height: 10vh;
+  max-width: 60vh;
+}
+

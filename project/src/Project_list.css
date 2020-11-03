@@ -1,0 +1,36 @@
+
+.project{
+    border-style: double;
+    width: 10cm;
+}
+
+.text{
+    display: flex;
+    justify-content: left;
+    align-self: center; 
+}
+  
+.font-name{
+    margin-right: 1.5cm;
+}
+  
+.last-modified{
+    margin-top: 0.56cm;
+}
+
+.new-project{
+    border-style: double;
+    width: 10cm;
+    display: flex;
+    justify-content: center;
+    align-self: center; 
+}
+
+.bi{
+    margin-top: 0.4cm;
+    margin-right: 0.5cm;
+}
+
+.create{
+    font-size: larger;
+}
