@@ -7,6 +7,7 @@ const userSchema = new Schema({
     password: String,
     salt: String,
     user_init_time: Number,
+    latest_cookie: String,
     verify: {
         verify_code: String,
         verified: Boolean,
@@ -18,9 +19,7 @@ const userSchema = new Schema({
     },
     related: {
         projects: Array,
-        followed: Array,
         liked: Array,
-        bookmarked: Array,
     },
 });
 
@@ -36,11 +35,13 @@ const projectSchema = new Schema({
     pid: Number,
     projectName: String,
     userOwn: Number,
+    last_modified: Date,
     related: {
         ratio_w: Number,
         ratio_h: Number,
         uploaded: Number,
         downloaded: Boolean,
+        Sample_pics: String,
     },
     publish: {
         published: Boolean,
@@ -50,7 +51,6 @@ const projectSchema = new Schema({
         tags: Array,
         license: String,
         likes: Number,
-        bookmarks: Number,
         downloads: Number,
     }
 });

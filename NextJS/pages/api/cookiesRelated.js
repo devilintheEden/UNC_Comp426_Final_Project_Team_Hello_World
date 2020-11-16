@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 import { User } from "../../helper_scripts/DB_helper.js";
-import cryptoRandomString from "crypto-random-string";
-import { sendEmail } from "../../helper_scripts/email.js";
 
 export default (req, res) => {
     return new Promise((resolve) => {
@@ -12,6 +10,7 @@ export default (req, res) => {
                     mongoose.connect("mongodb://localhost/test", {
                         useNewUrlParser: true,
                         useUnifiedTopology: true,
+                        useFindAndModify: false
                     });
                     const db = mongoose.connection;
                     db.on(
@@ -30,50 +29,34 @@ export default (req, res) => {
                             },
                             async function (err) {
                                 if (err) return console.error(err);
-                                if (data.code) {
+                                if (data.uid) {
                                     User.findOneAndUpdate(
                                         {
                                             uid: data.uid,
-                                            "verify.verify_code": data.code,
                                         },
-                                        { "verify.verified": true },
-                                        function (err, result) {
+                                        { latest_cookie: data.cookie },
+                                        function (err) {
                                             if (err) return console.error(err);
-                                            if (!result) {
-                                                db.close();
-                                                res.status(200).json({
-                                                    message:
-                                                        "The code is not correct or it has expired.",
-                                                });
-                                                return resolve();
-                                            } else {
-                                                db.close();
-                                                res.status(200).json({
-                                                    message: "",
-                                                });
-                                                return resolve();
-                                            }
+                                            db.close();
+                                            res.status(200).end();
+                                            return resolve();
                                         }
                                     );
                                 } else {
-                                    let verify_code = cryptoRandomString({
-                                        length: 6,
-                                    });
-                                    User.findOneAndUpdate(
-                                        { uid: data.uid },
-                                        { "verify.verify_code": verify_code },
+                                    User.findOne(
+                                        {
+                                            latest_cookie: data.cookie,
+                                        },
                                         function (err, result) {
                                             if (err) return console.error(err);
-                                            sendEmail(
-                                                result.email,
-                                                verify_code,
-                                                "account"
-                                            );
+                                            let temp = -1;
+                                            if (result) {
+                                                temp = result.uid;
+                                            }
                                             db.close();
                                             res.status(200).json({
-                                                message: "Email Re-sent.",
+                                                uid: temp,
                                             });
-                                            return resolve();
                                         }
                                     );
                                 }

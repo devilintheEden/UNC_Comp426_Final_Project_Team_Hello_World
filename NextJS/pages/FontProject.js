@@ -1,8 +1,7 @@
 import Head from "next/head";
-
 import FontProjectInterface from "../components/FontProjectInterface.js";
 
-export default function FontProject() {//FontProject
+export default function FontProject() {
     return (
         <div className="container">
             <Head>

@@ -3,6 +3,8 @@ import Messages from "../Snippets/Messages";
 import Popup from "reactjs-popup";
 import EnterCode from "../Snippets/EnterCode";
 import Link from "next/link";
+import { setCookie } from 'nookies';
+import cryptoRandomString from "crypto-random-string";
 const path = require("path");
 const crypto = require("crypto");
 
@@ -107,10 +109,34 @@ export default class LoginForm extends React.Component {
                     })
                         .then((res) => res.json())
                         .then((data) => {
-                            if (data.uid) {
+                            if (data.verified === false) {
                                 this.setState({ uid: data.uid });
                                 this.setState({ openPopup: "account" });
-                            } else if (data.message === "") {
+                            } else if (data.verified) {
+                                const cookie_value = cryptoRandomString({
+                                    length: 20,
+                                });
+                                setCookie(
+                                    null,
+                                    "Calli2Digital_thisSessionCookie",
+                                    cookie_value,
+                                    {
+                                        maxAge: 12 * 60 * 60,
+                                        path: "/",
+                                    }
+                                );
+                                fetch("./api/cookiesRelated", {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-type":
+                                            "application/json; charset=UTF-8",
+                                    },
+                                    body: JSON.stringify({
+                                        uid: data.uid,
+                                        cookie: cookie_value,
+                                        timeStamp: new Date(),
+                                    }),
+                                }).then();
                                 let jumplink = document.getElementById(
                                     "jumplink"
                                 );

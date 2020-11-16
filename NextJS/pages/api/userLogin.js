@@ -26,11 +26,13 @@ export default async (req, res) => {
                                         db.close();
                                         if (result.verify.verified) {
                                             res.status(200).json({
-                                                message: "",
+                                                uid: result.uid,
+                                                verified: true,
                                             });
                                         } else {
                                             res.status(200).json({
                                                 uid: result.uid,
+                                                verified: false,
                                             });
                                         }
                                         return resolve();

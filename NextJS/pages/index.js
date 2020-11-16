@@ -1,20 +1,51 @@
 import Head from "next/head";
+import fetch from "isomorphic-unfetch";
+import { parseCookies } from "nookies";
 import Header from "../components/HeaderFooter/Header.js";
 import Footer from "../components/HeaderFooter/Footer.js";
-import FontProjectInterface from "../components/FontProjectInterface.js";
+import Banner from "../components/HomepageBanner/Banner.js";
 
-export default function Home() {
-    return (
-        <div className="container">
-            <Head>
-                <title>Login</title>
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
-            <Header/>
-            <main>
-                <img className="w-100" src="/Backend/Resources/placeholder.jpg"></img>
-            </main>
-            <Footer/>
-        </div>
-    );
+export default class Home extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { uid: -1 };
+        this.checkCookie();
+    }
+
+    checkCookie() {
+        const cookies = parseCookies();
+        if (cookies) {
+            fetch("./api/cookiesRelated", {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+                body: JSON.stringify({
+                    cookie: cookies.Calli2Digital_thisSessionCookie,
+                    timeStamp: new Date(),
+                }),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.uid !== -1) {
+                        this.setState({ uid: data.uid });
+                    }
+                });
+        }
+    }
+    render() {
+        return (
+            <div className="container">
+                <Head>
+                    <title>Login</title>
+                    <link rel="icon" href="/favicon.ico" />
+                </Head>
+                <Header key={this.state.uid} uid={this.state.uid}/>
+                <main>
+                    <Banner/>
+                </main>
+                <Footer/>
+            </div>
+        );
+    }
 }

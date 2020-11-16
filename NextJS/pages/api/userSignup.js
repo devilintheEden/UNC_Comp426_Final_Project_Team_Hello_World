@@ -53,20 +53,19 @@ export default async (req, res) => {
                                                 password: data.password,
                                                 salt: data.salt,
                                                 user_init_time: new Date().getTime(),
+                                                latest_cookie: null,
                                                 verify: {
                                                     verify_code: verify_code,
                                                     verified: false,
                                                 },
                                                 profile: {
                                                     profileName: "Default Profile Name",
-                                                    profilePic: null,
+                                                    profilePic: "/Backend/Resources/default-profile-icon.png",
                                                     profileBio: "",
                                                 },
                                                 related: {
                                                     projects: [],
-                                                    followed: [],
                                                     liked: [],
-                                                    bookmarked: [],
                                                 },
                                             });
                                             this_website.usrNum += 1;

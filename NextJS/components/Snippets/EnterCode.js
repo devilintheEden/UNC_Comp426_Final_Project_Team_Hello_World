@@ -1,5 +1,8 @@
+import fetch from "isomorphic-unfetch";
 import Messages from "./Messages";
 import Link from "next/link";
+import { setCookie } from 'nookies';
+import cryptoRandomString from "crypto-random-string";
 
 export default class EnterCode extends React.Component {
     constructor(props) {
@@ -115,6 +118,25 @@ export default class EnterCode extends React.Component {
                                 },
                             });
                         } else {
+                            //generate & save cookies for this session
+                            console.log(this.props.uid);
+                            const cookie_value = cryptoRandomString({ length: 20 });
+                            setCookie(null, 'Calli2Digital_thisSessionCookie', cookie_value, {
+                                maxAge: 12 * 60 * 60,
+                                path: '/',
+                            });
+                            fetch("./api/cookiesRelated", {
+                                method: "POST",
+                                headers: {
+                                    "Content-type": "application/json; charset=UTF-8",
+                                },
+                                body: JSON.stringify({
+                                    uid: this.props.uid,
+                                    cookie: cookie_value,
+                                    timeStamp: new Date(),
+                                }),
+                            })
+                                .then();
                             let jumplink = document.getElementById("jumplink");
                             jumplink.click();
                         }

@@ -100,6 +100,7 @@ export default class SignUpForm extends React.Component {
             })
                 .then((res) => res.json())
                 .then((data) => {
+                    console.log(data);
                     if (data.uid) {
                         this.setState({ uid: data.uid });
                         this.setState({ openPopup: true });

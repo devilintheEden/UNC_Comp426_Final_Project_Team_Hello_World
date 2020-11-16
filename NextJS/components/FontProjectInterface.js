@@ -1,3 +1,4 @@
+import fetch from "isomorphic-unfetch";
 import DownloadPDFForm from "./GeneTTFRelated/DownloadPDFForm";
 import UploadPDFForm from "./GeneTTFRelated/UploadPDFForm";
 import ShowCaseSVG from "./ShowCaseSVG/ShowCaseSVG";
