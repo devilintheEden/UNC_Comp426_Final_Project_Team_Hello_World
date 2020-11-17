@@ -1,24 +1,51 @@
-import Head from 'next/head'
+import Head from "next/head";
+import fetch from "isomorphic-unfetch";
+import { parseCookies } from "nookies";
+import Header from "../components/HeaderFooter/Header.js";
+import Footer from "../components/HeaderFooter/Footer.js";
+import Banner from "../components/HomepageBanner/Banner.js";
 
-import ItemsGrid from '../components//GridLayout/ItemsGrid'
-import FontProjectInterface from '../components/FontProjectInterface.js'
+export default class Home extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { uid: -1 };
+        this.checkCookie();
+    }
 
-
-export default function Home() {
-  return (
-    <div className="container">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main id='root'>
-        <h1>Font Project</h1>
-        <FontProjectInterface />
-        <ItemsGrid col='3' row='4' count='95' type='char' />
-      </main>
-
-    </div>
-  )
+    checkCookie() {
+        const cookies = parseCookies();
+        if (cookies) {
+            fetch("./api/cookiesRelated", {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+                body: JSON.stringify({
+                    cookie: cookies.Calli2Digital_thisSessionCookie,
+                    timeStamp: new Date(),
+                }),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.uid !== -1) {
+                        this.setState({ uid: data.uid });
+                    }
+                });
+        }
+    }
+    render() {
+        return (
+            <div className="container">
+                <Head>
+                    <title>Login</title>
+                    <link rel="icon" href="/favicon.ico" />
+                </Head>
+                <Header key={this.state.uid} uid={this.state.uid}/>
+                <main>
+                    <Banner/>
+                </main>
+                <Footer/>
+            </div>
+        );
+    }
 }
-
