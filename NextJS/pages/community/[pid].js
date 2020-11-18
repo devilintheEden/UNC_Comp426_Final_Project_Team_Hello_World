@@ -1,4 +1,4 @@
-// import the API endpoint
+// import the data fetching funcitons
 // import { getAllProjectsID, getProject} from '../api/name'
 import Header from '../../components/HeaderFooter/Header'
 import Footer from '../../components/HeaderFooter/Footer'
@@ -17,6 +17,10 @@ export default function ProjectDetail({ project }) {
 
     const { isLiked, setIsLiked } = useState(false)
     const buttonStyle = 'f6 link dim br3 ba bw1 ph3 pv2 mb2 dib near-black fr di'
+    const tagStyle = 'f6 br3 ba bw1 ph3 pv2 mb2 dib near-black fl di ttc'
+
+    const handleLikeButton = function () {
+    }
 
     return (
         <>
@@ -47,7 +51,7 @@ export default function ProjectDetail({ project }) {
                         ></textarea>
                     </div>
                     <div className='w-50 right-column pl2'>
-                        {{/** buttons div*/ }}
+                        {{/** buttons div */ }}
                         <div className='relative'>
                             <div className={buttonStyle} onClick={handleLikeButton}>
                                 {isLiked ? <BookmarkHeartFill /> : <BookmarkHeart />}
@@ -58,18 +62,18 @@ export default function ProjectDetail({ project }) {
                                 <a>Download</a>
                             </div>
                         </div>
-                        {{/** font stats*/ }}
+                        {{/** font stats */ }}
                         <div className='flex flex-wrap f5'>
                             <div className='w-50'>Likes:{' ' + likes}</div>
                             <div className='w-50'>Downloads:{' ' + downloads}</div>
                             <div>Last updated: {' ' + pdate.toLocalString().split(',')[0]}</div>
                             <div>License: {' ' + license}</div>
                         </div>
-
+                        {{/** tags */ }}
                         <div className='flex flex-wrap mt5'>
                             <div className='f4 b'>Tags</div>
                             {tags.map(tag => {
-                                return <div className={'di ttc ' + buttonStyle} onClick={handleTagClick}>{tag}</div>
+                                return <div className={tagStyle}>{tag}</div>
                             })}
                         </div>
                     </div>
