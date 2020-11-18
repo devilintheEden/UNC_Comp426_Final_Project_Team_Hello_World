@@ -79,12 +79,12 @@ try {
 
 async function findThisWebsite() {
     let this_website;
-    if(!(await Website.exists({ name: "Calligraphy2Digital" }))){
+    if (!(await Website.exists({ name: "Calligraphy2Digital" }))) {
         this_website = new Website({ name: "Calligraphy2Digital", usrNum: 0, projectNum: 0 });
-    }else{
+    } else {
         this_website = await Website.findOne({ name: "Calligraphy2Digital" }).exec();
     }
     return this_website;
 }
 
-export {User, Project, Website, findThisWebsite};
+export { User, Project, Website, findThisWebsite };

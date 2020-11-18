@@ -7,7 +7,7 @@ export default (req, res) => {
             if (req.method === "POST") {
                 let data = req.body;
                 if (new Date() - new Date(data.timeStamp) < 1000) {
-                    mongoose.connect("mongodb://localhost/test", {
+                    mongoose.connect("mongodb+srv://jzy:xJPKRGAE1IAHjeLo@cluster0.mrdmc.mongodb.net/test?retryWrites=true&w=majority ", {
                         useNewUrlParser: true,
                         useUnifiedTopology: true,
                     });
@@ -23,10 +23,10 @@ export default (req, res) => {
                             },
                             function (err, result) {
                                 if (err) return console.error(err);
-                                if(result !== null){
+                                if (result !== null) {
                                     res.status(200).json(result);
-                                }else{
-                                    res.status(200).json({fail: true});
+                                } else {
+                                    res.status(200).json({ fail: true });
                                 }
                                 db.close();
                                 return resolve();

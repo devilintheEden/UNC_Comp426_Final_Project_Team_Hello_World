@@ -8,8 +8,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "d3": "^6.2.0",
-    "formidable": "^2.0.0-canary.20200504.1",
     "crypto-random-string": "^3.3.0",
     "form-data": "3.0.0",
     "formidable-serverless": "^1.0.3",
@@ -24,6 +22,7 @@
     "react-dom": "^16.13.1",
     "react-html-parser": "^2.0.2",
     "reactjs-popup": "^2.0.4",
-    "tachyons": "^4.12.0"
+    "tachyons": "^4.12.0",
+    "d3": "^6.2.0"
   }
 }
