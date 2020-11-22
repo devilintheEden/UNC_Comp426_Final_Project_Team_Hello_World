@@ -16,9 +16,7 @@ export default class Header extends React.Component {
         this.toggleSignInPopup = this.toggleSignInPopup.bind(this);
         this.jumpLogIn = this.jumpLogIn.bind(this);
         this.jumpSignUp = this.jumpSignUp.bind(this);
-        if (this.props.uid !== -1) {
-            this.getProfilePic();
-        }
+        this.getUserProfile(this.props.uid);
     }
 
     toggleSignInPopup() {
@@ -46,15 +44,19 @@ export default class Header extends React.Component {
                 "Content-type": "application/json; charset=UTF-8",
             },
             body: JSON.stringify({
-                uid: this.props.uid,
+                uid: uid,
                 timeStamp: new Date(),
             }),
         })
             .then((res) => res.json())
             .then((data) => {
-                this.setState({ profilePicPath: data.profile.profilePic });
+                console.log(data);
+                if (!data.fail) {
+                    this.setState({ profilePicPath: data.profile.profilePic });
+                }
             });
     }
+
     render() {
         return (
             <header className="sans-serif">
@@ -83,7 +85,7 @@ export default class Header extends React.Component {
                                     Community{" "}
                                 </a>
                             </Link>
-                            {this.props.uid === -1 ? (
+                            {this.state.profilePicPath === null ? (
                                 <a
                                     className="f6 fw4 hover-white no-underline white-70 dib ml2 pv2 ph3 ba"
                                     onClick={this.toggleSignInPopup}
@@ -93,16 +95,14 @@ export default class Header extends React.Component {
                             ) : (
                                     <Link href="/Profile">
                                         <a className="dib ml2 pv2 ph3">
-                                            {this.state.profilePicPath ? (
-                                                <img
-                                                    src={this.state.profilePicPath}
-                                                    width="40"
-                                                    height="40"
-                                                ></img>
-                                            ) : (
-                                                    <span></span>
-                                                )}
-                                        </a>
+                                            <img
+                                                key={this.state.profilePicPath}
+                                                src={this.state.profilePicPath}
+                                                width="40"
+                                                height="40"
+                                            ></img>
+                                        )
+                                    </a>
                                     </Link>
                                 )}
                         </div>

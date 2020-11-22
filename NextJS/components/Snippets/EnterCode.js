@@ -1,7 +1,7 @@
 import fetch from "isomorphic-unfetch";
 import Messages from "./Messages";
 import Link from "next/link";
-import { setCookie } from 'nookies';
+import { setCookie } from "nookies";
 import cryptoRandomString from "crypto-random-string";
 
 export default class EnterCode extends React.Component {
@@ -17,7 +17,7 @@ export default class EnterCode extends React.Component {
     }
 
     resendCode() {
-        fetch("./api/checkVrfCode", {
+        fetch("http://localhost:3000/api/checkVrfCode", {
             method: "POST",
             headers: {
                 "Content-type": "application/json; charset=UTF-8",
@@ -35,9 +35,9 @@ export default class EnterCode extends React.Component {
                         message: data.message,
                     },
                 });
-            })
+            });
     }
-    
+
     handleChange(event) {
         if (event.target.value.length <= 6) {
             this.setState({ [event.target.name]: event.target.value });
@@ -57,7 +57,7 @@ export default class EnterCode extends React.Component {
             this.setState({ msgInfo: { type: "", message: "" } });
             if (this.props.type === "password") {
                 if (this.state.verify_code === this.props.code) {
-                    fetch("./api/forgetPassword", {
+                    fetch("http://localhost:3000/api/forgetPassword", {
                         method: "POST",
                         headers: {
                             "Content-type": "application/json; charset=UTF-8",
@@ -97,7 +97,7 @@ export default class EnterCode extends React.Component {
                     });
                 }
             } else {
-                fetch("./api/checkVrfCode", {
+                fetch("http://localhost:3000/api/checkVrfCode", {
                     method: "POST",
                     headers: {
                         "Content-type": "application/json; charset=UTF-8",
@@ -120,25 +120,35 @@ export default class EnterCode extends React.Component {
                         } else {
                             //generate & save cookies for this session
                             console.log(this.props.uid);
-                            const cookie_value = cryptoRandomString({ length: 20 });
-                            setCookie(null, 'Calli2Digital_thisSessionCookie', cookie_value, {
-                                maxAge: 12 * 60 * 60,
-                                path: '/',
+                            const cookie_value = cryptoRandomString({
+                                length: 20,
                             });
-                            fetch("./api/cookiesRelated", {
+                            setCookie(
+                                null,
+                                "Calli2Digital_thisSessionCookie",
+                                cookie_value,
+                                {
+                                    maxAge: 12 * 60 * 60,
+                                    path: "/",
+                                }
+                            );
+                            fetch("http://localhost:3000/api/cookiesRelated", {
                                 method: "POST",
                                 headers: {
-                                    "Content-type": "application/json; charset=UTF-8",
+                                    "Content-type":
+                                        "application/json; charset=UTF-8",
                                 },
                                 body: JSON.stringify({
                                     uid: this.props.uid,
                                     cookie: cookie_value,
                                     timeStamp: new Date(),
                                 }),
-                            })
-                                .then();
-                            let jumplink = document.getElementById("jumplink");
-                            jumplink.click();
+                            }).then(() => {
+                                let jumplink = document.getElementById(
+                                    "jumplink"
+                                );
+                                jumplink.click();
+                            });
                         }
                     });
             }
@@ -171,7 +181,14 @@ export default class EnterCode extends React.Component {
                         Enter the 6-digit Verify Code you have received in the
                         email:{"    "}
                         {this.props.type !== "password" ? (
-                            <a style={{cursor: "pointer"}}onClick={this.resendCode}><em><u>Resend Code</u></em></a>
+                            <a
+                                style={{ cursor: "pointer" }}
+                                onClick={this.resendCode}
+                            >
+                                <em>
+                                    <u>Resend Code</u>
+                                </em>
+                            </a>
                         ) : (
                             <a></a>
                         )}

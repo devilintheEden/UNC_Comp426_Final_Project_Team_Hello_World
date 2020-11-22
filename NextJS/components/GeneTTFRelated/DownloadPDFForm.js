@@ -9,6 +9,7 @@ export default class DownloadPDFForm extends React.Component {
             width: "1",
             height: "1",
             msgInfo: { type: "", message: "" },
+            url: ""
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -38,7 +39,7 @@ export default class DownloadPDFForm extends React.Component {
         if (this.state.width != "" && this.state.height != "") {
             this.props.updateProjectWH(this.state);
             this.setState({ msgInfo: { type: "", message: "" } });
-            fetch("./api/downloadPDF", {
+            fetch("http://localhost:3000/api/downloadPDF", {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json; charset=UTF-8",
@@ -64,13 +65,8 @@ export default class DownloadPDFForm extends React.Component {
                         this.state.height +
                         ".pdf"
                 );
-                //const url = './Backend/Users/' + this.usr_id + '/Blank/' + this.state.width + '_' + this.state.height + '.txt';
-                let a = document.createElement("a");
-                document.body.appendChild(a);
-                a.href = url;
-                a.download = url.split("/").pop();
-                a.click();
-                document.body.removeChild(a);
+                this.setState({url: url});
+                document.getElementById("downloadurl").click();
             });
         } else {
             this.setState({
@@ -122,6 +118,7 @@ export default class DownloadPDFForm extends React.Component {
                     type={this.state.msgInfo.type}
                     message={this.state.msgInfo.message}
                 />
+                <a id="downloadurl" href={this.state.url} download={this.state.url.split("/").pop()}></a>
             </div>
         );
     }

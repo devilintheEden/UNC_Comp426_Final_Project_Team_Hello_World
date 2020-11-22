@@ -10,65 +10,52 @@ export default async (req, res) => {
             if (req.method === "POST") {
                 let data = req.body;
                 if (new Date() - new Date(data.timeStamp) < 1000) {
-                    mongoose.connect("mongodb://localhost/test", {
-                        useNewUrlParser: true,
-                        useUnifiedTopology: true,
-                    });
-                    const db = mongoose.connection;
-                    db.on(
-                        "error",
-                        console.error.bind(console, "connection error:")
-                    );
-                    db.once("open", async function () {
-                        if (!data.uid) {
-                            let temp_date = new Date().getTime() - 43200000;
-                            User.findOneAndDelete(
-                                {
-                                    email: data.email,
-                                    "verify.verified": false,
-                                    user_init_time: {
-                                        $lt: temp_date,
-                                    },
+                    if (!data.uid) {
+                        let temp_date = new Date().getTime() - 43200000;
+                        User.findOneAndDelete(
+                            {
+                                email: data.email,
+                                "verify.verified": false,
+                                user_init_time: {
+                                    $lt: temp_date,
                                 },
-                                async function (err) {
-                                    if (err) return console.error(err);
-                                    User.findOne(
-                                        { email: data.email },
-                                        async function (err, result) {
-                                            if (err) return console.error(err);
-                                            if (!result) {
-                                                db.close();
-                                                res.status(200).json({
-                                                    message:
-                                                        "The account doesn't exist.",
-                                                });
-                                                return resolve();
-                                            } else {
-                                                db.close();
-                                                let code = cryptoRandomString({
-                                                    length: 6,
-                                                });
-                                                sendEmail(
-                                                    data.email,
-                                                    code,
-                                                    "password"
-                                                );
-                                                res.status(200).json({
-                                                    message: "",
-                                                    code: code,
-                                                    uid: result.uid,
-                                                });
-                                                return resolve();
-                                            }
+                            },
+                            async function (err) {
+                                if (err) return console.error(err);
+                                User.findOne(
+                                    { email: data.email },
+                                    async function (err, result) {
+                                        if (err) return console.error(err);
+                                        if (!result) {
+                                            res.status(200).json({
+                                                message:
+                                                    "The account doesn't exist.",
+                                            });
+                                            return resolve();
+                                        } else {
+                                            let code = cryptoRandomString({
+                                                length: 6,
+                                            });
+                                            sendEmail(
+                                                data.email,
+                                                code,
+                                                "password"
+                                            );
+                                            res.status(200).json({
+                                                message: "",
+                                                code: code,
+                                                uid: result.uid,
+                                            });
+                                            return resolve();
                                         }
-                                    );
-                                }
-                            );
-                        } else {
-                            User.findOne({ uid: data.uid }, async function (
-                                err,
-                                result
-                            ) {
+                                    }
+                                );
+                            }
+                        );
+                    } else {
+                        User.findOne(
+                            { uid: data.uid },
+                            async function (err, result) {
                                 let temp_ps =
                                     cryptoRandomString({
                                         length: 3,
@@ -104,14 +91,13 @@ export default async (req, res) => {
                                     .toString("hex");
                                 result.salt = new_salt;
                                 await result.save();
-                                db.close();
                                 res.status(200).json({
                                     temp_ps: temp_ps,
                                 });
                                 return resolve();
-                            });
-                        }
-                    });
+                            }
+                        );
+                    }
                 } else {
                     throw String("timeout");
                 }

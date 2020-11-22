@@ -10,7 +10,7 @@ import toggleAutoSuggestion from "../helper_scripts/ToggleAutoSuggestion.js";
 export default class Community extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { uid: -1 };
+        this.state = { uid: -1, profilePicPath: "" };
         this.checkCookie();
     }
 
@@ -48,7 +48,10 @@ export default class Community extends React.Component {
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
                 <Header key={this.state.uid} uid={this.state.uid} />
+
                 <SearchBar />
+
+
                 <main id="root" className="pa0 w-100 min-h-100">
                     <h1>Community</h1>
                 </main>

@@ -8,7 +8,7 @@ import Banner from "../components/HomepageBanner/Banner.js";
 export default class Home extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { uid: -1 };
+        this.state = { uid: -1, profilePicPath: "" };
         this.checkCookie();
     }
 
@@ -33,6 +33,7 @@ export default class Home extends React.Component {
                 });
         }
     }
+
     render() {
         return (
             <div className="container">
