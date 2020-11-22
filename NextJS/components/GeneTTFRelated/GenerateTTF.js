@@ -22,7 +22,7 @@ export default class GenerateTTF extends React.Component {
             this.setState({ msgInfo: { type: "Alert", message: "You haven\'t uploaded any PDF in the previous section yet." } });
         } else {
             this.setState({ msgInfo: { type: "", message: "" } });
-            fetch("./api/geneTTF", {
+            fetch("http://localhost:3000/api/geneTTF", {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json; charset=UTF-8",

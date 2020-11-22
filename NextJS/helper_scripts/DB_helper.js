@@ -1,6 +1,6 @@
-import { Schema, model } from "mongoose";
+const mongoose = require("mongoose");
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
     uid: Number,
     email: String,
     googleIdtoken: String,
@@ -26,12 +26,12 @@ const userSchema = new Schema({
 let User;
 
 try {
-    User = model('users');
+    User = mongoose.model("User");
 } catch (error) {
-    User = model('users', userSchema);
+    User = mongoose.model("User", userSchema, "users");
 }
 
-const projectSchema = new Schema({
+const projectSchema = new mongoose.Schema({
     pid: Number,
     projectName: String,
     userOwn: Number,
@@ -52,18 +52,18 @@ const projectSchema = new Schema({
         license: String,
         likes: Number,
         downloads: Number,
-    }
+    },
 });
 
 let Project;
 
 try {
-    Project = model("Project");
+    Project = mongoose.model("Project");
 } catch (error) {
-    Project = model("Project", projectSchema);
+    Project = mongoose.model("Project", projectSchema, "projects");
 }
 
-const websiteSchema = new Schema({
+const websiteSchema = new mongoose.Schema({
     name: String,
     usrNum: Number,
     projectNum: Number,
@@ -72,19 +72,19 @@ const websiteSchema = new Schema({
 let Website;
 
 try {
-    Website = model("Website");
+    Website = mongoose.model("Website");
 } catch (error) {
-    Website = model("Website", websiteSchema);
+    Website = mongoose.model("Website", websiteSchema, "websites");
 }
 
-async function findThisWebsite() {
-    let this_website;
-    if(!(await Website.exists({ name: "Calligraphy2Digital" }))){
-        this_website = new Website({ name: "Calligraphy2Digital", usrNum: 0, projectNum: 0 });
-    }else{
-        this_website = await Website.findOne({ name: "Calligraphy2Digital" }).exec();
+
+mongoose.connect(
+    "mongodb+srv://YiyinEllenGu:BMTHQN0BAvYSMOkl@cluster0.mrdmc.mongodb.net/test?retryWrites=true&w=majority",
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
     }
-    return this_website;
-}
+);
+const db = mongoose.connection;
 
-export {User, Project, Website, findThisWebsite};
+export { User, Project, Website, db};

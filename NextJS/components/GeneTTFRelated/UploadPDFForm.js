@@ -33,7 +33,7 @@ export default class UploadPDFForm extends React.Component {
                 timeStamp: new Date(),
             });
             data.append("data", json_data);
-            fetch("./api/uploadPDF", {
+            fetch("http://localhost:3000/api/uploadPDF", {
                 method: "POST",
                 credentials: "include",
                 body: data,
