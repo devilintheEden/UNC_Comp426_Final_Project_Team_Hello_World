@@ -8,14 +8,14 @@ import Banner from "../components/HomepageBanner/Banner.js";
 export default class Home extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { uid: -1 };
+        this.state = { uid: -1, profilePicPath: "" };
         this.checkCookie();
     }
 
     checkCookie() {
         const cookies = parseCookies();
         if (cookies) {
-            fetch("./api/cookiesRelated", {
+            fetch("http://localhost:3000/api/cookiesRelated", {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json; charset=UTF-8",
@@ -33,6 +33,7 @@ export default class Home extends React.Component {
                 });
         }
     }
+
     render() {
         return (
             <div className="container">

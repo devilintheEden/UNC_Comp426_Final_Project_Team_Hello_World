@@ -4,7 +4,6 @@ import Messages from "../Snippets/Messages";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import EnterCode from "../Snippets/EnterCode";
-const path = require("path");
 const crypto = require("crypto");
 
 export default class SignUpForm extends React.Component {
@@ -78,7 +77,7 @@ export default class SignUpForm extends React.Component {
             this.state.confirm_password !== ""
         ) {
             let salt = cryptoRandomString({ length: 20 });
-            fetch("./api/userSignup", {
+            fetch("http://localhost:3000/api/userSignup", {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json; charset=UTF-8",
@@ -101,7 +100,7 @@ export default class SignUpForm extends React.Component {
                 .then((res) => res.json())
                 .then((data) => {
                     console.log(data);
-                    if (data.uid) {
+                    if (typeof(data.uid) === "number") {
                         this.setState({ uid: data.uid });
                         this.setState({ openPopup: true });
                     } else {

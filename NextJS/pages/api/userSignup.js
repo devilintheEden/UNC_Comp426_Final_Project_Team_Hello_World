@@ -1,7 +1,6 @@
-import { User, findThisWebsite } from "../../helper_scripts/DB_helper.js";
+import { User, Website } from "../../helper_scripts/DB_helper.js";
 import { sendEmail } from "../../helper_scripts/email.js";
 import cryptoRandomString from "crypto-random-string";
-const mongoose = require("mongoose");
 
 export default async (req, res) => {
     return new Promise((resolve) => {
@@ -11,89 +10,80 @@ export default async (req, res) => {
                 let data = req.body;
                 if (new Date() - new Date(data.timeStamp) < 1000) {
                     let verify_code = cryptoRandomString({ length: 6 });
-                    mongoose.connect("mongodb://localhost/test", {
-                        useNewUrlParser: true,
-                        useUnifiedTopology: true,
-                    });
-                    const db = mongoose.connection;
-                    db.on(
-                        "error",
-                        console.error.bind(console, "connection error:")
-                    );
-                    db.once("open", async function () {
-                        let temp_date = new Date().getTime() - 43200000;
-                        User.findOneAndDelete(
-                            {
-                                email: data.email,
-                                "verify.verified": false,
-                                user_init_time: {
-                                    $lt: temp_date,
-                                },
+
+                    let temp_date = new Date().getTime() - 43200000;
+                    User.findOneAndDelete(
+                        {
+                            email: data.email,
+                            "verify.verified": false,
+                            user_init_time: {
+                                $lt: temp_date,
                             },
-                            async function (err) {
-                                if (err) return console.error(err);
-                                User.findOne(
-                                    { email: data.email },
-                                    async function (err, result) {
-                                        if (err) return console.error(err);
-                                        if (result) {
-                                            db.close();
+                        },
+                        async function (err) {
+                            if (err) return console.error(err);
+                            User.findOne(
+                                { email: data.email },
+                                async function (err, result) {
+                                    if (err) return console.error(err);
+                                    if (result) {
+                                        res.status(200).json({
+                                            message:
+                                                "The email has already been registered.",
+                                        });
+                                        return resolve();
+                                    } else {
+                                        let this_website = await Website.findOne(
+                                            { name: "Calligraphy2Digital" }
+                                        ).exec();
+                                        this_uid = this_website.usrNum;
+                                        const new_user = new User({
+                                            uid: this_uid,
+                                            email: data.email,
+                                            googleIdtoken: null,
+                                            password: data.password,
+                                            salt: data.salt,
+                                            user_init_time: new Date().getTime(),
+                                            latest_cookie: null,
+                                            verify: {
+                                                verify_code: verify_code,
+                                                verified: false,
+                                            },
+                                            profile: {
+                                                profileName:
+                                                    "Default Profile Name",
+                                                profilePic:
+                                                    "/Backend/Resources/default-profile-icon.png",
+                                                profileBio: "",
+                                            },
+                                            related: {
+                                                projects: [],
+                                                liked: [],
+                                            },
+                                        });
+                                        this_website.usrNum += 1;
+                                        await this_website.save();
+                                        new_user.save(function (err) {
+                                            if (err) return console.error(err);
+                                            console.log(
+                                                "Document inserted succussfully!"
+                                            );
+                                            sendEmail(
+                                                data.email,
+                                                verify_code,
+                                                "account"
+                                            );
+
                                             res.status(200).json({
-                                                message:
-                                                    "The email has already been registered.",
+                                                uid: this_uid,
                                             });
                                             return resolve();
-                                        } else {
-                                            let this_website = await findThisWebsite();
-                                            this_uid = this_website.usrNum;
-                                            const new_user = new User({
-                                                uid: this_uid,
-                                                email: data.email,
-                                                googleIdtoken: null,
-                                                password: data.password,
-                                                salt: data.salt,
-                                                user_init_time: new Date().getTime(),
-                                                latest_cookie: null,
-                                                verify: {
-                                                    verify_code: verify_code,
-                                                    verified: false,
-                                                },
-                                                profile: {
-                                                    profileName: "Default Profile Name",
-                                                    profilePic: "/Backend/Resources/default-profile-icon.png",
-                                                    profileBio: "",
-                                                },
-                                                related: {
-                                                    projects: [],
-                                                    liked: [],
-                                                },
-                                            });
-                                            this_website.usrNum += 1;
-                                            await this_website.save();
-                                            new_user.save(function (err) {
-                                                if (err)
-                                                    return console.error(err);
-                                                console.log(
-                                                    "Document inserted succussfully!"
-                                                );
-                                                sendEmail(
-                                                    data.email,
-                                                    verify_code,
-                                                    "account"
-                                                );
-                                                db.close();
-
-                                                res.status(200).json({
-                                                    uid: this_uid,
-                                                });
-                                                return resolve();
-                                            });
-                                        }
+                                        });
                                     }
-                                );
-                            }
-                        );
-                    });
+                                }
+                            );
+                        }
+                    );
                 } else {
                     throw String("timeout");
                 }

@@ -3,7 +3,7 @@ import Messages from "../Snippets/Messages";
 import Popup from "reactjs-popup";
 import EnterCode from "../Snippets/EnterCode";
 import Link from "next/link";
-import { setCookie } from 'nookies';
+import { setCookie } from "nookies";
 import cryptoRandomString from "crypto-random-string";
 const path = require("path");
 const crypto = require("crypto");
@@ -38,7 +38,7 @@ export default class LoginForm extends React.Component {
                 },
             });
         } else {
-            fetch("./api/forgetPassword", {
+            fetch("http://localhost:3000/api/forgetPassword", {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json; charset=UTF-8",
@@ -75,7 +75,7 @@ export default class LoginForm extends React.Component {
     }
 
     handleSubmit(event) {
-        fetch("./api/userLogin", {
+        fetch("http://localhost:3000/api/userLogin", {
             method: "POST",
             headers: {
                 "Content-type": "application/json; charset=UTF-8",
@@ -88,7 +88,7 @@ export default class LoginForm extends React.Component {
             .then((res) => res.json())
             .then((data) => {
                 if (data.salt) {
-                    fetch("./api/userLogin", {
+                    fetch("http://localhost:3000/api/userLogin", {
                         method: "POST",
                         headers: {
                             "Content-type": "application/json; charset=UTF-8",
@@ -125,7 +125,7 @@ export default class LoginForm extends React.Component {
                                         path: "/",
                                     }
                                 );
-                                fetch("./api/cookiesRelated", {
+                                fetch("http://localhost:3000/api/cookiesRelated", {
                                     method: "POST",
                                     headers: {
                                         "Content-type":
@@ -136,11 +136,12 @@ export default class LoginForm extends React.Component {
                                         cookie: cookie_value,
                                         timeStamp: new Date(),
                                     }),
-                                }).then();
-                                let jumplink = document.getElementById(
-                                    "jumplink"
-                                );
-                                jumplink.click();
+                                }).then(() => {
+                                    let jumplink = document.getElementById(
+                                        "jumplink"
+                                    );
+                                    jumplink.click();
+                                });
                             } else {
                                 this.setState({
                                     msgInfo: {

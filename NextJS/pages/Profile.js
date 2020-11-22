@@ -2,7 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import fetch from "isomorphic-unfetch";
 import { parseCookies } from "nookies";
-import Project_list from "../components/new/Project_list.js";
+import Project_list from "../components/ProfilePage/Project_list.js";
 import Header from "../components/HeaderFooter/Header.js";
 import Footer from "../components/HeaderFooter/Footer.js";
 
@@ -17,7 +17,7 @@ export default class Profile extends React.Component {
     checkCookie() {
         const cookies = parseCookies();
         if (cookies) {
-            fetch("./api/cookiesRelated", {
+            fetch("http://localhost:3000/api/cookiesRelated", {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json; charset=UTF-8",
@@ -31,19 +31,13 @@ export default class Profile extends React.Component {
                 .then((data) => {
                     if (data.uid !== -1) {
                         this.setState({ uid: data.uid });
-                    } else {
-                        let jumplink = document.getElementById("jumplink");
-                        jumplink.click();
                     }
                 });
-        } else {
-            let jumplink = document.getElementById("jumplink");
-            jumplink.click();
-        }
+        } 
     }
 
     actionLogout() {
-        fetch("./api/cookiesRelated", {
+        fetch("http://localhost:3000/api/cookiesRelated", {
             method: "POST",
             headers: {
                 "Content-type": "application/json; charset=UTF-8",
@@ -55,6 +49,7 @@ export default class Profile extends React.Component {
             }),
         }).then(document.getElementById("jumplink").click());
     }
+
     render() {
         return (
             <div className="container ">
@@ -70,16 +65,13 @@ export default class Profile extends React.Component {
                             <u><a className="pointer" onClick={this.actionLogout}>Log out</a></u>
                         </div>
                         <div className="w-70 mr2">
-                            <Project_list
+                        <Project_list
                                 key={this.state.uid}
                                 uid={this.state.uid}
                             />
                         </div>
                     </div>
                 </main>
-                <Link href="/">
-                    <a id="jumplink"></a>
-                </Link>
                 <Footer />
             </div>
         );
