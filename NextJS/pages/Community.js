@@ -4,6 +4,8 @@ import { parseCookies } from "nookies";
 import Header from "../components/HeaderFooter/Header.js";
 import Footer from "../components/HeaderFooter/Footer.js";
 import SearchBar from '../components/SearchBar'
+import { InputCursor } from "react-bootstrap-icons";
+import toggleAutoSuggestion from "../helper_scripts/ToggleAutoSuggestion.js";
 
 export default class Community extends React.Component {
     constructor(props) {
@@ -12,10 +14,14 @@ export default class Community extends React.Component {
         this.checkCookie();
     }
 
+    componentDidMount() {
+        toggleAutoSuggestion()
+    }
+
     checkCookie() {
         const cookies = parseCookies();
         if (cookies) {
-            fetch("./api/cookiesRelated", {
+            fetch("/api/cookiesRelated", {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json; charset=UTF-8",

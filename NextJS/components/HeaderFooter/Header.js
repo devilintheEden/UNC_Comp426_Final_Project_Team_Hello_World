@@ -40,7 +40,7 @@ export default class Header extends React.Component {
     }
 
     getProfilePic() {
-        fetch("./api/getUserInfo", {
+        fetch("/api/getUserInfo", {
             method: "POST",
             headers: {
                 "Content-type": "application/json; charset=UTF-8",
@@ -91,20 +91,20 @@ export default class Header extends React.Component {
                                     Sign In
                                 </a>
                             ) : (
-                                <Link href="/Profile">
-                                    <a className="dib ml2 pv2 ph3">
-                                        {this.state.profilePicPath ? (
-                                            <img
-                                                src={this.state.profilePicPath}
-                                                width="40"
-                                                height="40"
-                                            ></img>
-                                        ) : (
-                                            <span></span>
-                                        )}
-                                    </a>
-                                </Link>
-                            )}
+                                    <Link href="/Profile">
+                                        <a className="dib ml2 pv2 ph3">
+                                            {this.state.profilePicPath ? (
+                                                <img
+                                                    src={this.state.profilePicPath}
+                                                    width="40"
+                                                    height="40"
+                                                ></img>
+                                            ) : (
+                                                    <span></span>
+                                                )}
+                                        </a>
+                                    </Link>
+                                )}
                         </div>
                     </nav>
                     <Popup
@@ -143,8 +143,8 @@ export default class Header extends React.Component {
                                     </li>
                                 </ul>
                             ) : (
-                                this.state.type
-                            )}
+                                    this.state.type
+                                )}
                         </div>
                     </Popup>
                 </div>

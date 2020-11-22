@@ -15,7 +15,7 @@ export default class Home extends React.Component {
     checkCookie() {
         const cookies = parseCookies();
         if (cookies) {
-            fetch("./api/cookiesRelated", {
+            fetch("/api/cookiesRelated", {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json; charset=UTF-8",
@@ -40,11 +40,11 @@ export default class Home extends React.Component {
                     <title>Login</title>
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
-                <Header key={this.state.uid} uid={this.state.uid}/>
+                <Header key={this.state.uid} uid={this.state.uid} />
                 <main>
-                    <Banner/>
+                    <Banner />
                 </main>
-                <Footer/>
+                <Footer />
             </div>
         );
     }

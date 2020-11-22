@@ -3,20 +3,37 @@ import { connectToDatabase } from '../../helper_scripts/mongodb'
 import Header from '../../components/HeaderFooter/Header'
 import Footer from '../../components/HeaderFooter/Footer'
 import { BookmarkHeart, BookmarkHeartFill, CloudArrowDown } from 'react-bootstrap-icons'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import checkCookie from "../../helper_scripts/checkcookie";
 
 export default function ProjectDetail({ project }) {
     const font = project[0]
     const { pid, projectName, userOwn, last_modified: pdate, publish } = font
     const { Sample_pics: urls, info, tags, license, likes, downloads } = publish
 
-
-    // need font file here
-    // const style = document.createElement('style');
-    // style.appendChild(document.createTextNode(`@font-face{font-family:"${projectName}";src:url("/Backend/Users/${userOwn}/Projects/${pid}");}textarea{font-family:"${projectName}"}`));
-    // document.head.appendChild(style);
-
+    const [uid, setUID] = useState(-1)
     const [isLiked, setIsLiked] = useState(false)
+
+
+    useEffect(() => {
+
+
+        // need font file here
+        const style = document.createElement('style');
+        style.appendChild(document.createTextNode(`@font-face{font-family:"${projectName}";src:url("/Backend/Users/${userOwn}/Projects/${pid}/Output/Ubuntu-C.ttf");}textarea{font-family:"${projectName}"}`));
+        document.head.appendChild(style);
+
+        setUID(checkCookie())
+
+    }, [])
+
+    // useEffect(() => {
+    //     if (uid >= 0) {
+
+    //     }
+    // }, [uid])
+
+
     const buttonStyle = 'f4 link dim br3 ba bw1 ph3 pv2 mb2 dib near-black di mh3 pointer'
     const tagStyle = 'f4 br3 ba bw1 ph3 pv2 mb3 mr3 dib near-black fl di ttc'
 
@@ -30,6 +47,7 @@ export default function ProjectDetail({ project }) {
             <Head>
                 <title>{projectName} - Calligraphy2Digital</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                <link rel="icon" href="/favicon.ico" />
             </Head>
             {/** insert search bar */}
             <Header />
@@ -57,10 +75,10 @@ export default function ProjectDetail({ project }) {
                     <div className='w-third right-column pl2'>
                         {/** buttons div */}
                         <div className='w-100 tr'>
-                            <div className={buttonStyle} onClick={handleLikeButton}>
+                            {uid >= 0 ? (<div className={buttonStyle} onClick={handleLikeButton}>
                                 {isLiked ? <BookmarkHeartFill className='v-mid' /> : <BookmarkHeart className='v-mid' />}
                                 <a>{isLiked ? ' Unlike' : ' Like'}</a>
-                            </div>
+                            </div>) : null}
                             <div className={buttonStyle} onClick={handleDownloadButton}>
                                 <CloudArrowDown className='v-mid' />
                                 <a> Download</a>
@@ -95,7 +113,7 @@ export async function getStaticPaths() {
     const { db } = await connectToDatabase();
 
     const fonts = await db
-        .collection("project1")
+        .collection("projects")
         .find()
         .toArray();
 
@@ -118,7 +136,7 @@ export async function getStaticProps({ params }) {
     const { db } = await connectToDatabase();
 
     const project = await db
-        .collection("project1")
+        .collection("projects")
         .find({ pid: parseInt(params.pid) })
         .toArray()
 

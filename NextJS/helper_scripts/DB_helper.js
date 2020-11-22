@@ -45,7 +45,7 @@ const projectSchema = new Schema({
     },
     publish: {
         published: Boolean,
-        name: String,
+        TTFname: String,
         Sample_pics: Array,
         info: String,
         tags: Array,
