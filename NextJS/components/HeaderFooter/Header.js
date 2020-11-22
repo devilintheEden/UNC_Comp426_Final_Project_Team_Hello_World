@@ -3,6 +3,7 @@ import fetch from "isomorphic-unfetch";
 import Popup from "reactjs-popup";
 import LoginForm from "../LogIn/LoginForm.js";
 import SignUpForm from "../LogIn/SignUpForm.js";
+import GoogleSignIn from "../Snippets/GoogleSignIn.js";
 
 export default class Header extends React.Component {
     constructor(props) {
@@ -61,6 +62,7 @@ export default class Header extends React.Component {
         return (
             <header className="sans-serif">
                 <div className="bg-black-80">
+
                     <nav className="dt w-100 mw8 center">
                         <div className="dtc w2 v-mid pa3">
                             <Link href="/">
@@ -121,6 +123,9 @@ export default class Header extends React.Component {
                             </a>
                             {this.state.popWidth === "250px" ? (
                                 <ul className="list pl0 measure center">
+                                    <li>
+                                        <GoogleSignIn />
+                                    </li>
                                     <li>
                                         <a
                                             onClick={this.jumpSignUp}

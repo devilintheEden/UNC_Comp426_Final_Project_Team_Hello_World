@@ -13,7 +13,6 @@ export default (req, res) => {
                     data.project_name,
                     data.font_name,
                 ]);
-                //spawnSync('python3', ['./public/dummy.py',' 0', data.usr_id.toString(), data.w, data.h])
             } else {
                 throw String("timeout");
             }

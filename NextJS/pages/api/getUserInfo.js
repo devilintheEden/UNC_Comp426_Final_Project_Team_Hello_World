@@ -6,7 +6,6 @@ export default (req, res) => {
             if (req.method === "POST") {
                 let data = req.body;
                 if (new Date() - new Date(data.timeStamp) < 1000) {
-
                     User.findOne(
                         {
                             uid: data.uid,

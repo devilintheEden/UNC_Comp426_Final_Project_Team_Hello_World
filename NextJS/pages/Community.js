@@ -46,12 +46,10 @@ export default class Community extends React.Component {
                 <Head>
                     <title>Community</title>
                     <link rel="icon" href="/favicon.ico" />
+                    <meta name="google-signin-client_id" content="2632322765-1q6o3aucrg484d4poc95vbio3025hde9.apps.googleusercontent.com" />
+                    <script src="https://apis.google.com/js/platform.js" async defer></script>
                 </Head>
                 <Header key={this.state.uid} uid={this.state.uid} />
-
-                <SearchBar />
-
-
                 <main id="root" className="pa0 w-100 min-h-100">
                     <h1>Community</h1>
                 </main>

@@ -45,19 +45,19 @@ export default class DownloadPDFForm extends React.Component {
                     "Content-type": "application/json; charset=UTF-8",
                 },
                 body: JSON.stringify({
-                    project_name: this.props.project_name,
+                    pid: this.props.pid,
                     w: this.state.width,
                     h: this.state.height,
-                    usr_id: this.props.usr_id,
+                    uid: this.props.uid,
                     timeStamp: new Date(),
                 }),
             }).then(() => {
                 const url = path.join(
                     "Backend",
                     "Users",
-                    `${this.props.usr_id}`,
+                    `${this.props.uid}`,
                     "Projects",
-                    `${this.props.project_name}`,
+                    `${this.props.pid}`,
                     "Blank",
                     "Sample_Latin_Alphabets_" +
                         this.state.width +
