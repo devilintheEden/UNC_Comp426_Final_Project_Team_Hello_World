@@ -1,0 +1,61 @@
+.container {
+    background-color: white; 
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    width: 80%;
+    left: 0;
+    top: 0;
+    margin-left: 10%;
+    margin-right: 10%;
+    position: fixed;
+
+}
+
+.img {
+    float: left;
+    width: 67%;
+}
+
+.infoContainer {
+    padding-left: 25px;
+    display: flex;
+    flex-direction: column;
+    column-gap: 5px;
+    font-weight: 600;
+    width: 33%;
+    float: left;
+}
+
+.nameAuthor{
+    height: 20px;
+    margin-bottom: 3px;
+}
+
+.tags {
+    height: 20px;
+    margin-bottom: 3px;
+}
+
+.tag {
+    background: grey;  
+    padding: 2px; 
+    border: 1px solid lightgray;
+    margin-right: 2px; 
+}
+
+ul.tags li {
+    display: inline;
+}
+
+.license {
+    height: 20px;
+    margin-bottom: 3px;
+}
+
+.fontInfo {
+    height: 20px;
+    margin-bottom: 3px;
+}
