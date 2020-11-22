@@ -22,6 +22,7 @@
     "react-dom": "^16.13.1",
     "react-html-parser": "^2.0.2",
     "reactjs-popup": "^2.0.4",
-    "tachyons": "^4.12.0"
+    "tachyons": "^4.12.0",
+    "d3": "^6.2.0"
   }
 }
