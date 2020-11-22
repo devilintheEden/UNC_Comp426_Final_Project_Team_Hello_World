@@ -35,22 +35,24 @@ const projectSchema = new mongoose.Schema({
     pid: Number,
     projectName: String,
     userOwn: Number,
+    userName: String,
     last_modified: Date,
     related: {
         ratio_w: Number,
         ratio_h: Number,
         uploaded: Number,
         downloaded: Boolean,
+        generated: Boolean,
         Sample_pics: String,
     },
     publish: {
         published: Boolean,
-        name: String,
         Sample_pics: Array,
+        TTFname: String,
         info: String,
         tags: Array,
         license: String,
-        likes: Number,
+        likes: Array,
         downloads: Number,
     },
 });
@@ -83,9 +85,9 @@ mongoose.connect(
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        useFindAndModify: false,
     }
 );
 const db = mongoose.connection;
-
 
 export { User, Project, Website, db};

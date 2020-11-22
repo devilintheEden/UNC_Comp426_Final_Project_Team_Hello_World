@@ -4,9 +4,14 @@ import fetch from "isomorphic-unfetch";
 import { parseCookies } from "nookies";
 
 export default class FontProject extends React.Component {
+
+    static getInitialProps({query}) {
+        return {query}
+      }
+
     constructor(props) {
         super(props);
-        this.state = { uid: -1 };
+        this.state = { pid: this.props.query.pid, uid: -1};
         this.checkCookie();
     }
 
@@ -31,6 +36,7 @@ export default class FontProject extends React.Component {
                 });
         }
     }
+
     render() {
         return (
             <div className="container">
@@ -40,7 +46,7 @@ export default class FontProject extends React.Component {
                 </Head>
 
                 <main id="root" className="pa0 w-100 min-h-100">
-                    <FontProjectInterface />
+                    {this.state.uid >= 0 ? (<FontProjectInterface key={this.state.uid} uid={this.state.uid} pid={this.state.pid}/>) : null}
                 </main>
             </div>
         );

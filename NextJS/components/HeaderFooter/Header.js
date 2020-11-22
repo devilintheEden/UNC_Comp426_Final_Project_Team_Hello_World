@@ -3,6 +3,7 @@ import fetch from "isomorphic-unfetch";
 import Popup from "reactjs-popup";
 import LoginForm from "../LogIn/LoginForm.js";
 import SignUpForm from "../LogIn/SignUpForm.js";
+import GoogleSignIn from "../Snippets/GoogleSignIn.js";
 
 export default class Header extends React.Component {
     constructor(props) {
@@ -37,7 +38,7 @@ export default class Header extends React.Component {
         this.setState({ type: <SignUpForm /> });
     }
 
-    getUserProfile(uid){
+    getUserProfile(uid) {
         fetch("http://localhost:3000/api/getUserInfo", {
             method: "POST",
             headers: {
@@ -51,7 +52,7 @@ export default class Header extends React.Component {
             .then((res) => res.json())
             .then((data) => {
                 console.log(data);
-                if(!data.fail){
+                if (!data.fail) {
                     this.setState({ profilePicPath: data.profile.profilePic });
                 }
             });
@@ -61,6 +62,7 @@ export default class Header extends React.Component {
         return (
             <header className="sans-serif">
                 <div className="bg-black-80">
+                    
                     <nav className="dt w-100 mw8 center">
                         <div className="dtc w2 v-mid pa3">
                             <Link href="/">
@@ -95,12 +97,12 @@ export default class Header extends React.Component {
                             ) : (
                                 <Link href="/Profile">
                                     <a className="dib ml2 pv2 ph3">
-                                            <img
-                                                key={this.state.profilePicPath}
-                                                src={this.state.profilePicPath}
-                                                width="40"
-                                                height="40"
-                                            ></img>
+                                        <img
+                                            key={this.state.profilePicPath}
+                                            src={this.state.profilePicPath}
+                                            width="40"
+                                            height="40"
+                                        ></img>
                                         )
                                     </a>
                                 </Link>
@@ -121,6 +123,9 @@ export default class Header extends React.Component {
                             </a>
                             {this.state.popWidth === "250px" ? (
                                 <ul className="list pl0 measure center">
+                                    <li>
+                                        <GoogleSignIn/>
+                                    </li>
                                     <li>
                                         <a
                                             onClick={this.jumpSignUp}
