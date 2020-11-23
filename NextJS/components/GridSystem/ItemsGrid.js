@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react'
-import CharSVG from '../FontProject/CharSVG'
-import charIdx from '../FontProject/charIdx'
+import UserFont from '../UserFont'
 import Grid from './grid'
 import Pagination from './Pagination'
 
 const itemType = {
-    char: CharSVG,
     font_in_community: UserFont,
-    font_in_myProject: Foo
 }
 
 export default function ItemsGrid(props) {
@@ -17,13 +14,15 @@ export default function ItemsGrid(props) {
     const pageNum = Math.ceil(count / (col * row))
     const SpecificItem = itemType[type]
 
-    const [currentPage, setCurrenPage] = useState(1)
+    const [currentPage, setCurrenPage] = useState(0)
     const [items, setItems] = useState([])
 
 
     const handlePageChange = function (pageIdx) {
         setCurrenPage(pageIdx)
     }
+
+    useEffect(() => { setCurrenPage(1) }, [])
 
     // Setup the items array for rendering the children of <Grid>
     useEffect(() => {

@@ -38,8 +38,8 @@ export default class Header extends React.Component {
         this.setState({ type: <SignUpForm /> });
     }
 
-    getProfilePic() {
-        fetch("/api/getUserInfo", {
+    getUserProfile(uid) {
+        fetch("http://localhost:3000/api/getUserInfo", {
             method: "POST",
             headers: {
                 "Content-type": "application/json; charset=UTF-8",

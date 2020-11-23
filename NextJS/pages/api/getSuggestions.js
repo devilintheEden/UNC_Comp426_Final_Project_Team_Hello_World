@@ -13,25 +13,18 @@ export default async (req, res) => {
                 const fonts = await await db
                     .collection("projects")
                     .find({
-                        projectName: new RegExp(query, 'i')
+                        "publish.published": true,
+                        projectName: new RegExp(query, 'i'),
                     })
+                    .limit(10)
                     .toArray()
 
                 const fontNames = fonts.map(font => font.projectName)
 
-                const users = await db
-                    .collection("users")
-                    .find({ 'profile.profileName': new RegExp(query, 'i') })
-                    .toArray()
-
-                const userNames = users.map(user => user.profile.profileName)
-
-                const results = fontNames.concat(userNames)
-
-                if (results.length == 0) {
+                if (fontNames.length == 0) {
                     res.status(200).json({ fail: true })
                 } else {
-                    res.status(200).json({ 'results': results })
+                    res.status(200).json({ 'results': fontNames })
                 }
             } else {
                 throw String("timeout");
@@ -40,6 +33,7 @@ export default async (req, res) => {
             throw String("Method not allowed");
         }
     } catch (error) {
+
         res.status(400).json({ message: JSON.stringify(error, null, 2) });
     }
 };

@@ -1,6 +1,5 @@
 import React from 'react';
-// import FontShow from '../FontShow';
-import '../CSS/UserFont.css';
+
 
 class UserFont extends React.Component {
     constructor(props) {
@@ -10,7 +9,6 @@ class UserFont extends React.Component {
 
     render() {
         // We can access the JSON data by calling props.data;
-
 
         // <img src="https://placeholder.pics/svg/1000x80" alt={FontShow.Font_name} />
         return (
