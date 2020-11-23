@@ -9,8 +9,8 @@ export default (req, res) => {
                 spawnSync("python3", [
                     path.join("public", "generate_ttf_related.py"),
                     "2",
-                    data.usr_id.toString(),
-                    data.project_name,
+                    data.uid.toString(),
+                    data.pid.toString(),
                     data.font_name,
                 ]);
             } else {

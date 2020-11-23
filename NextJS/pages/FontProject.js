@@ -11,7 +11,8 @@ export default class FontProject extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { pid: this.props.query.pid, uid: -1};
+        this.state = { pid: parseInt(this.props.query.pid, 10), uid: -1};
+        console.log(this.state);
         this.checkCookie();
     }
 

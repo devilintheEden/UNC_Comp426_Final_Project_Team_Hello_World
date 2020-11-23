@@ -27,9 +27,9 @@ const uploadForm = (next) => async (req, res) => {
                             `public`,
                             `Backend`,
                             `Users`,
-                            `${data.usr_id}`,
+                            `${data.uid}`,
                             `Projects`,
-                            `${data.project_name}`,
+                            `${data.pid}`,
                             `Uploads`
                         );
                         if (!fs.existsSync(target_dir)) {
@@ -47,8 +47,8 @@ const uploadForm = (next) => async (req, res) => {
                                         "generate_ttf_related.py"
                                     ),
                                     "1",
-                                    `${data.usr_id}`,
-                                    data.project_name,
+                                    `${data.uid}`,
+                                    `${data.pid}`,
                                     files.file.name,
                                     data.pdfWH.width,
                                     data.pdfWH.height,
@@ -78,8 +78,8 @@ const uploadForm = (next) => async (req, res) => {
                                         "generate_ttf_related.py"
                                     ),
                                     "1",
-                                    `${data.usr_id}`,
-                                    data.project_name,
+                                    `${data.uid}`,
+                                    `${data.pid}`,
                                     files.file.name,
                                     data.pdfWH.width,
                                     data.pdfWH.height,

@@ -9,12 +9,11 @@ export default (req, res) => {
                 spawnSync("python3", [
                     path.join("public", "generate_ttf_related.py"),
                     "0",
-                    data.usr_id.toString(),
-                    data.project_name,
+                    data.uid.toString(),
+                    data.pid.toString(),
                     data.w,
                     data.h,
                 ]);
-                //spawnSync('python3', ['./public/dummy.py',' 0', data.usr_id.toString(), data.w, data.h])
             } else {
                 throw String("timeout");
             }

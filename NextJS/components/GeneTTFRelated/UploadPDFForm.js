@@ -5,6 +5,7 @@ import FormData from "form-data";
 export default class UploadPDFForm extends React.Component {
     constructor(props) {
         super(props);
+        console.log(this.props);
         this.state = { selectedFile: null, msgInfo: { type: "", message: "" } };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,8 +27,8 @@ export default class UploadPDFForm extends React.Component {
             data.append("file", this.state.selectedFile);
             console.log(this.state.selectedFile);
             const json_data = JSON.stringify({
-                usr_id: this.props.usr_id,
-                project_name: this.props.project_name,
+                uid: this.props.uid,
+                pid: this.props.pid,
                 pdfWH: this.props.pdfWH,
                 uploaded: this.props.uploaded,
                 timeStamp: new Date(),
