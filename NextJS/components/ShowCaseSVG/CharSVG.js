@@ -1,8 +1,8 @@
 const path = require("path");
 
 export default function CharSVG(props) {
-    const {project_name, usr_id, index, char, width, updated } = props
-    const dir = path.join('Backend', 'Users', `${usr_id}`, 'Projects', `${project_name}`, `Uploads`, `Images_From_PDF`, index + '_' + updated + `.svg`);
+    const {pid, uid, index, char, width, updated } = props
+    const dir = path.join('Backend', 'Users', `${uid}`, 'Projects', `${pid}`, `Uploads`, `Images_From_PDF`, index + '_' + updated + `.svg`);
     return (
         <div
             className='char tc'
