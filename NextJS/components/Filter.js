@@ -12,7 +12,7 @@ function Filter({ filterFeed }) {
 
     return (
         <nav>
-            <ul className="menu list pa3 gray sans-serif f5 fw5 tracked">
+            <ul className="menu list pa3 near-dark sans-serif f5 fw5 tracked mb5">
                 <li className="dib ma2 bg-animate hide-child relative-m relative-l w-100 w-auto-ns pointer">
                     <a className="dib nav tc no-underline pa2 ph5 bg-gray white w-100">Filters
                     <ChevronDown size='16' className='v-mid ml1' />
@@ -52,7 +52,7 @@ function Filter({ filterFeed }) {
                         </li>
                     </ul>
                 </li>
-                <div className='v-mid di pointer'>
+                <div className='v-mid di pointer gray'>
                     <ArrowUp size='24' className={direction == 'down' ? '' : 'near-black'} onClick={() => setDirection('up')} />
                     <ArrowDown size='24' className={direction == 'up' ? '' : 'near-black'} onClick={() => setDirection('down')} />
                 </div>

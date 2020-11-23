@@ -1,6 +1,4 @@
 import Head from "next/head";
-import fetch from "isomorphic-unfetch";
-import { parseCookies } from "nookies";
 import Header from "../components/HeaderFooter/Header.js";
 import Footer from "../components/HeaderFooter/Footer.js";
 import SearchBar from '../components/SearchBar'
@@ -11,24 +9,14 @@ import Title from "../components/Community/title.js";
 import { useEffect, useState } from "react";
 import checkCookie from "../helper_scripts/checkcookie.js";
 import ItemsGrid from "../components/GridSystem/ItemsGrid.js";
+import { connectToDatabase } from '../helper_scripts/mongodb'
 
-export default function Community() {
-
+export default function Community({ fonts }) {
+    const [infoList, setInfoList] = useState(fonts)
     const [uid, setUID] = useState(-1)
-    const [infoList, setInfoList] = useState([])
-
     useEffect(() => {
         setUID(checkCookie())
         toggleAutoSuggestion()
-        fetch("/api/getAllPublishedProjects", {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-            },
-            body: JSON.stringify({
-                timeStamp: new Date(),
-            }),
-        }).then(res => res.json()).then(data => setInfoList(data))
     }, [])
 
     const filterFeed = function (category, sortBy, direction) {
@@ -64,8 +52,6 @@ export default function Community() {
 
     }
 
-
-
     return (
         <div className="container">
             <Head>
@@ -80,9 +66,27 @@ export default function Community() {
                 <Title title='Explore and find your favorites' />
                 <Filter filterFeed={filterFeed} />
                 <ItemsGrid row={8} col={1} type='font_in_community' infoList={infoList} />
-
             </Main>
             <Footer />
         </div>
     )
+}
+
+export async function getStaticProps() {
+    // get the project json by pid
+    const { db } = await connectToDatabase();
+
+    const fonts = await await db
+        .collection("projects")
+        .find({
+            "publish.published": true,
+        })
+        .toArray()
+
+    return {
+        props: {
+            fonts: JSON.parse(JSON.stringify(fonts)),
+        },
+    };
+
 }

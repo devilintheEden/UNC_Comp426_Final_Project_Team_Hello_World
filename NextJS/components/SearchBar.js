@@ -24,7 +24,7 @@ export default function SearchBar() {
         const searchBar = document.querySelector('.search-bar form')
         const height = searchBar.clientHeight
         const offsetTop = searchBar.offsetTop
-        const left = searchBar.offsetLeft
+        const left = 0
         const top = height + offsetTop
         setUlStyle({
             top: top,
@@ -124,30 +124,33 @@ export default function SearchBar() {
     }
 
     return (
-        <div className='bg-black-80 pv3 search-bar relative black-80'>
-            <form
-                className='center mw6 br-pill pv2 ph3 bg-white relative bt'
-                action='/community/search'
-                autoComplete='off'
-                method='get'
-                role='search'
+        <div className='bg-black-80'>
+            <div className='center mw6 pv3 search-bar relative black-80'>
+                <form
+                    className='br-pill pv2 ph3 bg-white relative bt'
+                    action='/community/search'
+                    autoComplete='off'
+                    method='get'
+                    role='search'
 
-            >
-                <Search className='absolute f3' />
-                <input
-                    type='search'
-                    placeholder='Search the community'
-                    required
-                    className='bn f4 outline-0 w-100 pl4 ml2 black-80'
-                    onInput={handleInputChange}
-                    name='query'
-                ></input>
-            </form>
-            <ul
-                className='auto-suggestion absolute bg-white mw6 ma0 ph0 pb3 w-100 '
-                style={ulStyle}
-            >{lists}</ul>
+                >
+                    <Search className='absolute f3' />
+                    <input
+                        type='search'
+                        placeholder='Search the community'
+                        required
+                        className='bn f4 outline-0 w-100 pl4 ml2 black-80'
+                        onInput={handleInputChange}
+                        name='query'
+                    ></input>
+                </form>
+                <ul
+                    className='auto-suggestion absolute bg-white mw6 ma0 ph0 pb3 w-100'
+                    style={ulStyle}
+                >{lists}</ul>
+            </div>
         </div>
+
 
     )
 }

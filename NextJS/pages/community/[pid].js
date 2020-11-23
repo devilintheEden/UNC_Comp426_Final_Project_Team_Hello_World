@@ -54,8 +54,10 @@ export default function ProjectDetail({ project }) {
                 <title>{projectName} - Calligraphy2Digital</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                 <link rel="icon" href="/favicon.ico" />
+                <meta name="google-signin-client_id" content="2632322765-1q6o3aucrg484d4poc95vbio3025hde9.apps.googleusercontent.com" />
+                <script src="https://apis.google.com/js/platform.js" async defer></script>
             </Head>
-            <Header />
+            <Header key={uid} uid={uid} />
             <SearchBar />
             <div className='mw9 center mt4 mb5'>
 

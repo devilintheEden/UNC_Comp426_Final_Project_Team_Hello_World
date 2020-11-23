@@ -1,7 +1,7 @@
 import charIdx from '../ShowCaseSVG/charIdx'
 import CharSVG from '../ShowCaseSVG/CharSVG'
 export default function Grid(props) {
-    const { updated, project_name, usr_id, col, row, count, curPage, type } = props
+    const { updated, pid, uid, col, row, count, curPage, type } = props
     const start = (curPage - 1) * col * row
     const end = Math.min(count, curPage * col * row)
     const items = []
@@ -14,8 +14,8 @@ export default function Grid(props) {
                 {items.map((char, i) =>
                     <CharSVG
                         updated={updated}
-                        project_name={project_name}
-                        usr_id={usr_id}
+                        pid={pid}
+                        uid={uid}
                         index={start + i}
                         char={char}
                         width={1 / col}

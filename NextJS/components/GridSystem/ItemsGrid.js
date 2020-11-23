@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import UserFont from '../UserFont'
-import Grid from './grid'
 import Pagination from './Pagination'
 
 const itemType = {
@@ -17,31 +16,30 @@ export default function ItemsGrid(props) {
     const [currentPage, setCurrenPage] = useState(0)
     const [items, setItems] = useState([])
 
-
     const handlePageChange = function (pageIdx) {
         setCurrenPage(pageIdx)
     }
 
     useEffect(() => { setCurrenPage(1) }, [])
-
     // Setup the items array for rendering the children of <Grid>
     useEffect(() => {
         const start = (currentPage - 1) * col * row
         const end = Math.min(count, currentPage * col * row)
-        setItems(infoList.slice(start, end))
+        if (infoList.length > 0) setItems(infoList.slice(start, end))
     }, [currentPage])
+
 
 
     return (
         <>
-            <Grid>
+            <div className='flex flex-wrap w-100 mb5'>
                 {items.map(info =>
                     <SpecificItem
                         info={info}
                         width={1 / col}
                         key={info}
                     />)}
-            </Grid>
+            </div>
             <Pagination num={pageNum} label={currentPage} onPageChange={handlePageChange} />
         </>
     )

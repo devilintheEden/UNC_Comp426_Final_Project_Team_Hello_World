@@ -12,6 +12,7 @@ export default (req, res) => {
                         },
                         function (err, result) {
                             if (err) return console.error(err);
+                            console.log(result);
                             if (result !== null) {
                                 res.status(200).json(result);
                             } else {

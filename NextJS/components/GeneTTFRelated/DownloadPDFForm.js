@@ -5,9 +5,10 @@ const path = require("path");
 export default class DownloadPDFForm extends React.Component {
     constructor(props) {
         super(props);
+        console.log(props);
         this.state = {
-            width: "1",
-            height: "1",
+            width: this.props.w,
+            height: this.props.h,
             msgInfo: { type: "", message: "" },
             url: ""
         };

@@ -8,11 +8,18 @@ import toggleAutoSuggestion from "../../helper_scripts/ToggleAutoSuggestion";
 import ItemsGrid from "../../components/GridSystem/ItemsGrid";
 import Title from "../../components/Community/title";
 import Main from "../../components/Community/Main";
+import checkCookie from "../../helper_scripts/checkcookie";
 
-export default function Search({ pids }) {
+
+export default function Search({ fonts, query }) {
+    const [style, setStyle] = useState({})
+    const [uid, setUID] = useState(-1)
 
     useEffect(() => {
+        setUID(checkCookie())
         toggleAutoSuggestion()
+        const height = window.innerHeight
+        setStyle({ minHeight: height })
     }, [])
 
     return (
@@ -21,14 +28,17 @@ export default function Search({ pids }) {
                 <title>Search Results - Calligraphy2Digital</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                 <link rel="icon" href="/favicon.ico" />
+                <meta name="google-signin-client_id" content="2632322765-1q6o3aucrg484d4poc95vbio3025hde9.apps.googleusercontent.com" />
+                <script src="https://apis.google.com/js/platform.js" async defer></script>
             </Head>
-            <Header />
+            <Header key={uid} uid={uid} />
             <SearchBar />
             <Main>
-                <Title title='Search Results' />
-
-                <div className='mt4'>
-                    <ItemsGrid col={1} row={8} type='font_in_community' infoList={pids} />
+                <Title title={`Search results for "${query}"`} />
+                <div className='mt4' style={style}>
+                    {fonts.length == 0
+                        ? <div className='f2 gray'>Sorry, no matched font found in our community.</div>
+                        : <ItemsGrid col={1} row={8} type='font_in_community' infoList={fonts} />}
                 </div>
             </Main>
             <Footer />
@@ -51,13 +61,11 @@ export async function getServerSideProps(context) {
         })
         .toArray()
 
-    const pids = fonts.map(font => font.pid)
-
     return {
         props: {
-            pids: JSON.parse(JSON.stringify(pids)),
+            fonts: JSON.parse(JSON.stringify(fonts)),
+            query: query
         },
     };
-
 
 }

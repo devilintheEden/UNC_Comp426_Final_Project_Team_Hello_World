@@ -21,6 +21,7 @@ export default (req, res) => {
                                     pid: this_pid,
                                     projectName: "Default Project Name",
                                     userOwn: data.uid,
+                                    userName: result.profile.profileName,
                                     last_modified: new Date(),
                                     related: {
                                         ratio_w: 1,
@@ -31,12 +32,12 @@ export default (req, res) => {
                                     },
                                     publish: {
                                         published: false,
-                                        name: "",
+                                        TTFname: "",
                                         Sample_pics: [],
                                         info: "",
                                         tags: [],
                                         license: "",
-                                        likes: 0,
+                                        likes: [],
                                         downloads: 0,
                                     },});
                                     this_website.projectNum += 1;
@@ -51,6 +52,24 @@ export default (req, res) => {
                                 res.status(200).json({ pid: this_pid });
                                 return resolve();
                                         });
+                            }
+                        );
+                    }else{
+                        let temp_obj = {};
+                        for (const [key, value] of Object.entries(data)) {
+                            if(key !== "pid" && key !== "timeStamp"){
+                                temp_obj[key] = value;
+                            }
+                        }
+                        Project.findOneAndUpdate(
+                            {
+                                pid: data.pid,
+                            },
+                            temp_obj,
+                            async function (err, result) {
+                                if (err) return console.error(err);
+                                res.status(200).end();
+                                return resolve();
                             }
                         );
                     }

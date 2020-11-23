@@ -28,8 +28,8 @@ export default class GenerateTTF extends React.Component {
                     "Content-type": "application/json; charset=UTF-8",
                 },
                 body: JSON.stringify({
-                    project_name: this.props.project_name,
-                    usr_id: this.props.usr_id,
+                    pid: this.props.pid,
+                    usr_id: this.props.uid,
                     font_name: this.state.font_name,
                     timeStamp: new Date(),
                 }),
@@ -37,13 +37,12 @@ export default class GenerateTTF extends React.Component {
                 const url = path.join(
                     "Backend",
                     "Users",
-                    `${this.props.usr_id}`,
+                    `${this.props.uid}`,
                     "Projects",
-                    `${this.props.project_name}`,
+                    `${this.props.pid}`,
                     "Output",
                     this.state.font_name + ".ttf"
                 );
-                //const url = './Backend/Users/' + this.usr_id + '/Blank/' + this.state.width + '_' + this.state.height + '.txt';
                 let a = document.createElement("a");
                 document.body.appendChild(a);
                 a.href = url;
