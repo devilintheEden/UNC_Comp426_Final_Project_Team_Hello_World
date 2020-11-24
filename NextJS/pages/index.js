@@ -15,7 +15,7 @@ export default class Home extends React.Component {
     checkCookie() {
         const cookies = parseCookies();
         if (cookies) {
-            fetch("http://localhost:3000/api/cookiesRelated", {
+            fetch("/api/cookiesRelated", {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json; charset=UTF-8",
@@ -43,11 +43,11 @@ export default class Home extends React.Component {
                     <meta name="google-signin-client_id" content="2632322765-1q6o3aucrg484d4poc95vbio3025hde9.apps.googleusercontent.com"/>
                     <script src="https://apis.google.com/js/platform.js" async defer></script>
                 </Head>
-                <Header key={this.state.uid} uid={this.state.uid}/>
+                <Header key={this.state.uid} uid={this.state.uid} />
                 <main>
-                    <Banner/>
+                    <Banner />
                 </main>
-                <Footer/>
+                <Footer />
             </div>
         );
     }

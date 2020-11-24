@@ -90,4 +90,4 @@ mongoose.connect(
 );
 const db = mongoose.connection;
 
-export { User, Project, Website, db};
+export { User, Project, Website, db };

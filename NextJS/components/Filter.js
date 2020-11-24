@@ -1,79 +1,69 @@
-import { ChevronDown, ArrowUp, ArrowDown} from 'react-bootstrap-icons';
+import { useEffect, useState } from 'react';
+import { ChevronDown, ArrowUp, ArrowDown } from 'react-bootstrap-icons';
 
-function Filter() {
-    return(
-        <nav>
-            <ul class="menu list pa3 gray sans-serif f6 fw5 tracked">
-                <li class="dib ma2 bg-animate hover-bg-light-blue hide-child relative-m relative-l w-100 w-auto-ns">
-                    <a href="#" class="dib nav tc no-underline pa2 ph4 bg-moon-gray white w-100">Filter1
-                    <ChevronDown size='8'/>
-                    </a>
-                        <ul class="menu list bg-light-blue mt1 pa1 f6 child child-vs o-100-vs absolute-m absolute-l top-100-m w-100 br2 shadow-4">
-                            <li class="ma1 pa1 ph3 bg-light-blue bg-animate hover-bg-white">
-                                <a href="#">
-                                    Category1
-                                </a>
-                            </li>
-                            <li class="ma1 pa1 ph3 bg-light-blue bg-animate hover-bg-white">
-                                <a href="#">
-                                    Category2
-                                </a>
-                            </li>
-                            <li class="ma1 pa1 ph3 bg-light-blue bg-animate hover-bg-white">
-                                <a href="#">
-                                    Category3
-                                </a>
-                            </li>
-                        </ul>
-                </li>
-                <li class="dib ma2 bg-animate hover-bg-light-blue hide-child relative-m relative-l w-100 w-auto-ns">
-                    <a href="#" class="dib nav tc no-underline pa2 ph4 bg-moon-gray white w-100">Filter2
-                    <ChevronDown size='8'/>
-                    </a>
-                        <ul class="menu list bg-light-blue mt1 pa1 f6 child child-vs o-100-vs absolute-m absolute-l top-100-m w-100 br2 shadow-4">
-                            <li class="ma1 pa1 ph3 bg-light-blue bg-animate hover-bg-white">
-                                <a href="#">
-                                    Category1
-                                </a>
-                            </li>
-                            <li class="ma1 pa1 ph3 bg-light-blue bg-animate hover-bg-white">
-                                <a href="#">
-                                    Category2
-                                </a>
-                            </li>
-                            <li class="ma1 pa1 ph3 bg-light-blue bg-animate hover-bg-white">
-                                <a href="#">
-                                    Category3
-                                </a>
-                            </li>
-                        </ul>
-                </li>
-                <li class="dib ma2 bg-animate hover-bg-light-blue hide-child relative-m relative-l w-100 w-auto-ns">
-                    <a href="#" class="dib nav tc no-underline pa2 ph4 bg-moon-gray white w-100">Sort By
-                    <ChevronDown size='8'/>
-                    </a>
-                        <ul class="menu list bg-light-blue mt1 pa1 f6 child child-vs o-100-vs absolute-m absolute-l top-100-m w-100 br2 shadow-4">
-                            <li class="ma1 pa1 ph3 bg-light-blue bg-animate hover-bg-white">
-                                <a href="#">
-                                    Order1
-                                </a>
-                            </li>
-                            <li class="ma1 pa1 ph3 bg-light-blue bg-animate hover-bg-white">
-                                <a href="#">
-                                    Order2
-                                </a>
-                            </li>
-                            <li class="ma1 pa1 ph3 bg-light-blue bg-animate hover-bg-white">
-                                <a href="#">
-                                    Order3
-                                </a>
-                            </li>
-                        </ul>
-                </li>
-                <a href="#"><ArrowUp size='16'/></a>
-                <a href="#"><ArrowDown size='16'/></a>
-            </ul>
-        </nav>
+function Filter({ filterFeed }) {
+    const [direction, setDirection] = useState('down')
+    const [category, setCategory] = useState('all')
+    const [sortBy, setSortBy] = useState('popularity')
+
+    useEffect(() => {
+        filterFeed(category, sortBy, direction)
+    }, [direction, category, sortBy])
+
+    return (
+
+        <ul className="menu list pa3 near-dark sans-serif f5 fw5 tracked mb2">
+            <li className="dib ma2 bg-animate hide-child relative-m relative-l w-100 w-auto-ns pointer">
+                <a className="dib nav tc no-underline pa2 ph5 bg-gray white w-100">Filters
+                    <ChevronDown size='16' className='v-mid ml1' />
+                </a>
+                <ul className="menu list bg-white mt1 pa1 child child-vs o-100-vs absolute-m absolute-l top-100-m w-100 br2 shadow-4 ">
+                    <li
+                        className="ma1 pa1 ph3 bg-animate hover-bg-light-gray"
+                        onClick={() => setCategory('all')}
+                    >
+                        <a>Any</a>
+                    </li>
+                    <li
+                        className="ma1 pa1 ph3 bg-animate hover-bg-light-gray"
+                        onClick={() => setCategory('free')}
+                    >
+                        <a>Downloadable</a>
+                    </li>
+                    <li
+                        className="ma1 pa1 ph3 bg-animate hover-bg-light-gray"
+                        onClick={() => setCategory('notFree')}
+                    >
+                        <a>Copyrighted</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li className="dib ma2 bg-animate hide-child relative-m relative-l w-100 w-auto-ns pointer">
+                <a className="dib nav tc no-underline pa2 ph4 bg-gray white w-100">Sort By
+                    <ChevronDown size='16' className='v-mid ml1' />
+                </a>
+                <ul className="menu list bg-white mt1 pa1 child child-vs o-100-vs absolute-m absolute-l top-100-m w-100 br2 shadow-4">
+                    <li
+                        className="ma1 pa1 ph3 bg-animate hover-bg-light-gray"
+                        onClick={() => setSortBy('popularity')}
+                    >
+                        <a>Popularity</a>
+                    </li>
+                    <li
+                        className="ma1 pa1 ph3 bg-animate hover-bg-light-gray"
+                        onClick={() => setSortBy('date')}
+                    >
+                        <a>Date</a>
+                    </li>
+                </ul>
+            </li>
+            <div className='v-mid di pointer gray'>
+                <ArrowUp size='24' className={direction == 'down' ? '' : 'near-black'} onClick={() => setDirection('up')} />
+                <ArrowDown size='24' className={direction == 'up' ? '' : 'near-black'} onClick={() => setDirection('down')} />
+            </div>
+
+        </ul>
     );
 }
 

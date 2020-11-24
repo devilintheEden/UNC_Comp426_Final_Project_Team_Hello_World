@@ -3,26 +3,59 @@ import { connectToDatabase } from '../../helper_scripts/mongodb'
 import Header from '../../components/HeaderFooter/Header'
 import Footer from '../../components/HeaderFooter/Footer'
 import { BookmarkHeart, BookmarkHeartFill, CloudArrowDown } from 'react-bootstrap-icons'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import checkCookie from "../../helper_scripts/checkcookie";
+import toggleAutoSuggestion from "../../helper_scripts/ToggleAutoSuggestion";
+import SearchBar from "../../components/SearchBar";
 
 export default function ProjectDetail({ project }) {
     const font = project[0]
-    const { pid, projectName, userOwn, last_modified: pdate, publish } = font
-    const { Sample_pics: urls, info, tags, license, likes, downloads } = publish
+    const { pid, projectName, userName, userOwn, last_modified: pdate, publish } = font
+    const { Sample_pics: urls, info, tags, license, likes, downloads, TTFname } = publish
 
-
-    // need font file here
-    // const style = document.createElement('style');
-    // style.appendChild(document.createTextNode(`@font-face{font-family:"${projectName}";src:url("/Backend/Users/${userOwn}/Projects/${pid}");}textarea{font-family:"${projectName}"}`));
-    // document.head.appendChild(style);
-
+    const [uid, setUID] = useState(-1)
     const [isLiked, setIsLiked] = useState(false)
+    const fontURL = `/Backend/Users/${userOwn}/Projects/${pid}/Output/${TTFname}.ttf`
+
+    useEffect(() => {
+
+        // need font file here
+        const style = document.createElement('style');
+        style.appendChild(document.createTextNode(`@font-face{font-family:"${projectName}";src:url("${fontURL}");}textarea{font-family:"${projectName}"}`));
+        document.head.appendChild(style);
+
+        setUID(checkCookie())
+        toggleAutoSuggestion()
+
+    }, [])
+
+    useEffect(() => {
+        if (uid >= 0) {
+            if (likes.includes(uid)) {
+                setIsLiked(true)
+            }
+        }
+    }, [uid])
+
     const buttonStyle = 'f4 link dim br3 ba bw1 ph3 pv2 mb2 dib near-black di mh3 pointer'
     const tagStyle = 'f4 br3 ba bw1 ph3 pv2 mb3 mr3 dib near-black fl di ttc'
 
     const handleLikeButton = function () {
+        fetch("/api/projectUpdate", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+            },
+            body: JSON.stringify({
+                pid: pid,
+                "publish.likes": likes.push(uid),
+                timeStamp: new Date(),
+            }),
+        })
     }
+
     const handleDownloadButton = function () {
+        window.open(fontURL)
     }
 
     return (
@@ -30,45 +63,47 @@ export default function ProjectDetail({ project }) {
             <Head>
                 <title>{projectName} - Calligraphy2Digital</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                <link rel="icon" href="/favicon.ico" />
+                <meta name="google-signin-client_id" content="2632322765-1q6o3aucrg484d4poc95vbio3025hde9.apps.googleusercontent.com" />
+                <script src="https://apis.google.com/js/platform.js" async defer></script>
             </Head>
-            {/** insert search bar */}
-            <Header />
+            <Header key={uid} uid={uid} />
+            <SearchBar />
             <div className='mw9 center mt4 mb5'>
 
                 <div className='db pv4'>
-                    {/* <img src={urls[0]} className='w-100' /> */}
-                    <img src="https://placeholder.pics/svg/1200x100/DEDEDE/555555/1" width='100%' />
+                    <img src={urls[1]} className='w-100' />
                 </div>
 
                 <div className='flex mt4'>
                     <div className='w-two-thirds left-column pr5'>
                         <div className='flex relative items-end'>
                             <div className='f1 fl di mr3 b'>{projectName}</div>
-                            <div className='f3 fl di ml4'>by<strong>{' ' + userOwn}</strong></div>
+                            <div className='f3 fl di ml4'>by<strong>{' ' + userName}</strong></div>
                         </div>
 
                         <div className='f3 mt4'>{info}</div>
                         <textarea
                             placeholder='Type something to try this font...'
                             rows='6'
-                            className='br4 f3 mt4 w-50 pa3 outline-0'
+                            className='br4 f2 mt4 w-100 pa3 outline-0'
                         ></textarea>
                     </div>
                     <div className='w-third right-column pl2'>
                         {/** buttons div */}
                         <div className='w-100 tr'>
-                            <div className={buttonStyle} onClick={handleLikeButton}>
+                            {uid >= 0 ? (<div className={buttonStyle} onClick={handleLikeButton}>
                                 {isLiked ? <BookmarkHeartFill className='v-mid' /> : <BookmarkHeart className='v-mid' />}
                                 <a>{isLiked ? ' Unlike' : ' Like'}</a>
-                            </div>
-                            <div className={buttonStyle} onClick={handleDownloadButton}>
+                            </div>) : <div className={buttonStyle} onClick={() => document.querySelector('.signin').click()}>Sign in to like this font</div>}
+                            {license === 'Downloadable' ? (<div className={buttonStyle} onClick={handleDownloadButton}>
                                 <CloudArrowDown className='v-mid' />
                                 <a> Download</a>
-                            </div>
+                            </div>) : <div className={buttonStyle}>This font is copyrighted</div>}
                         </div>
                         {/** font stats */}
                         <div className='flex flex-wrap f3 w-100 mt4'>
-                            <div className='w-50'>Likes:{' ' + likes}</div>
+                            <div className='w-50'>Likes:{' ' + likes.length}</div>
                             <div className='w-50'>Downloads:{' ' + downloads}</div>
                             <div className='w-100 mt1'>Last updated: {' ' + new Date(pdate).toLocaleString().split(',')[0]}</div>
                             <div className='w-100 mt1'>License: {' ' + license}</div>
@@ -85,7 +120,9 @@ export default function ProjectDetail({ project }) {
                     </div>
                 </div>
             </div>
-            <Footer />
+            <div className='absolute bottom-0 w-100'>
+                <Footer />
+            </div>
         </>
     )
 }
@@ -95,7 +132,7 @@ export async function getStaticPaths() {
     const { db } = await connectToDatabase();
 
     const fonts = await db
-        .collection("project1")
+        .collection("projects")
         .find()
         .toArray();
 
@@ -118,7 +155,7 @@ export async function getStaticProps({ params }) {
     const { db } = await connectToDatabase();
 
     const project = await db
-        .collection("project1")
+        .collection("projects")
         .find({ pid: parseInt(params.pid) })
         .toArray()
 

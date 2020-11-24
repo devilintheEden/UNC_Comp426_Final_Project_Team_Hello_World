@@ -62,7 +62,7 @@ export default class Header extends React.Component {
         return (
             <header className="sans-serif">
                 <div className="bg-black-80">
-                    
+
                     <nav className="dt w-100 mw8 center">
                         <div className="dtc w2 v-mid pa3">
                             <Link href="/">
@@ -89,24 +89,24 @@ export default class Header extends React.Component {
                             </Link>
                             {this.state.profilePicPath === null ? (
                                 <a
-                                    className="f6 fw4 hover-white no-underline white-70 dib ml2 pv2 ph3 ba"
+                                    className="signin f6 fw4 hover-white no-underline white-70 dib ml2 pv2 ph3 ba"
                                     onClick={this.toggleSignInPopup}
                                 >
                                     Sign In
                                 </a>
                             ) : (
-                                <Link href="/Profile">
-                                    <a className="dib ml2 pv2 ph3">
-                                        <img
-                                            key={this.state.profilePicPath}
-                                            src={this.state.profilePicPath}
-                                            width="40"
-                                            height="40"
-                                        ></img>
+                                    <Link href="/Profile">
+                                        <a className="dib ml2 pv2 ph3">
+                                            <img
+                                                key={this.state.profilePicPath}
+                                                src={this.state.profilePicPath}
+                                                width="40"
+                                                height="40"
+                                            ></img>
                                         )
                                     </a>
-                                </Link>
-                            )}
+                                    </Link>
+                                )}
                         </div>
                     </nav>
                     <Popup
@@ -124,7 +124,7 @@ export default class Header extends React.Component {
                             {this.state.popWidth === "250px" ? (
                                 <ul className="list pl0 measure center">
                                     <li>
-                                        <GoogleSignIn/>
+                                        <GoogleSignIn />
                                     </li>
                                     <li>
                                         <a
@@ -148,8 +148,8 @@ export default class Header extends React.Component {
                                     </li>
                                 </ul>
                             ) : (
-                                this.state.type
-                            )}
+                                    this.state.type
+                                )}
                         </div>
                     </Popup>
                 </div>
