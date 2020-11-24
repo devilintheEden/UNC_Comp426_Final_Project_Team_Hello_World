@@ -1,45 +1,54 @@
-import fetch from 'isomorphic-unfetch';
-import FormData from 'form-data';
+import fetch from "isomorphic-unfetch";
+import Messages from "../Snippets/Messages";
+import FormData from "form-data";
 
 export default class UploadPDFForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { selectedFile: null };
+        console.log(this.props);
+        this.state = { selectedFile: null, msgInfo: { type: "", message: "" } };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(event) {
         this.setState({ selectedFile: event.target.files[0] });
+        this.setState({ msgInfo: { type: "", message: "" } });
     }
 
     handleSubmit(event) {
-        if (this.props.pdfWH.downloaded && this.state.selectedFile != null) {
+        if (this.state.selectedFile === null) {
+            this.setState({msgInfo: {type: "Alert", message: "You haven't select any file to upload."}});
+        } else if (!this.props.pdfWH.downloaded) {
+            this.setState({msgInfo: {type: "Alert", message: "You have never download a template in this project so it is impossible for us to split the file into individual characters."}});
+        } else {
+            this.setState({ msgInfo: { type: "", message: "" } });
             const data = new FormData();
-            data.append('file', this.state.selectedFile);
+            data.append("file", this.state.selectedFile);
             console.log(this.state.selectedFile);
             const json_data = JSON.stringify({
-                usr_id: this.props.usr_id,
-                project_name: this.props.project_name,
+                uid: this.props.uid,
+                pid: this.props.pid,
                 pdfWH: this.props.pdfWH,
-                uploaded: this.props.uploaded
-            })
-            data.append('data', json_data);
-            fetch('./api/upload', {
+                uploaded: this.props.uploaded,
+                timeStamp: new Date(),
+            });
+            data.append("data", json_data);
+            fetch("http://localhost:3000/api/uploadPDF", {
                 method: "POST",
-                credentials: 'include',
-                body: data
-            }).then(response => response.json())
-                .then(data => {
+                credentials: "include",
+                body: data,
+            })
+                .then((response) => response.json())
+                .then((data) => {
                     console.log(data);
-                }).then(
-                    () => { this.props.hasUploaded(); }
-                )
-                .catch(error => {
+                })
+                .then(() => {
+                    this.props.hasUploaded();
+                })
+                .catch((error) => {
                     console.error(error);
                 });
-        } else {
-            alert("Careful! You haven't select any file to upload or you have never download a template in this project!");
         }
         event.preventDefault();
     }
@@ -47,11 +56,29 @@ export default class UploadPDFForm extends React.Component {
     render() {
         return (
             <div className="ba b--dashed ma1 pb3">
-                <p className="ma2 pa1">Here Upload the PDF template that you have downloaded and filled out.</p>
+                <p className="ma2 pa1">
+                    Here Upload the PDF template that you have downloaded and
+                    filled out.
+                </p>
                 <form className="mh2 ph2" onSubmit={this.handleSubmit}>
-                    <input className="center f6 ma1 pv3 ph2 dib black bg-washed-blue" type="file" name="file" accept="application/pdf" onChange={this.handleChange} />
-                    <input className="f6 ba mv2 pv1 dib black" type="submit" value="Upload PDF" />
+                    <input
+                        className="center f6 ma1 pv3 ph2 dib black bg-washed-blue"
+                        type="file"
+                        name="file"
+                        accept="application/pdf"
+                        onChange={this.handleChange}
+                    />
+                    <br />
+                    <input
+                        className="f6 ba mv2 pv1 dib black"
+                        type="submit"
+                        value="Upload PDF"
+                    />
                 </form>
+                <Messages
+                    type={this.state.msgInfo.type}
+                    message={this.state.msgInfo.message}
+                />
             </div>
         );
     }

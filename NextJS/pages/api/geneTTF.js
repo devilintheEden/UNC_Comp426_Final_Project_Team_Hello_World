@@ -1,12 +1,21 @@
-import { spawnSync } from 'child_process';
+import { spawnSync } from "child_process";
 const path = require("path");
 
 export default (req, res) => {
     try {
-        if (req.method === 'POST') {
+        if (req.method === "POST") {
             let data = req.body;
-            spawnSync('python3', [path.join('public','generate_ttf_related.py'), '2', data.usr_id.toString(), data.project_name, data.font_name]);
-            //spawnSync('python3', ['./public/dummy.py',' 0', data.usr_id.toString(), data.w, data.h])
+            if (new Date() - new Date(data.timeStamp) < 1000) {
+                spawnSync("python3", [
+                    path.join("public", "generate_ttf_related.py"),
+                    "2",
+                    data.uid.toString(),
+                    data.pid.toString(),
+                    data.font_name,
+                ]);
+            } else {
+                throw String("timeout");
+            }
         } else {
             throw String("Method not allowed");
         }
@@ -14,4 +23,4 @@ export default (req, res) => {
         res.status(400).json({ message: JSON.stringify(error, null, 2) });
     }
     return res.status(200).end();
-}
+};

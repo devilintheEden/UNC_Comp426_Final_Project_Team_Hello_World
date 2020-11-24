@@ -19,7 +19,7 @@ export default function ShowCaseSVG(props) {
     if(rerender !== 0){
         return (
             <div className='h-100 prjDetail measure center'>
-                <Grid updated={bool_show} project_name={props.project_name} usr_id={props.usr_id} col={col} row={row} curPage={currentPage} count={count} type={type}/>
+                <Grid updated={bool_show} pid={props.pid} uid={props.uid} col={col} row={row} curPage={currentPage} count={count} type={type}/>
                 <Pagination num={pageNum} label={currentPage} onPageChange={handlePageChange} />
             </div>
         )

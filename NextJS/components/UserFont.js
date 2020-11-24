@@ -1,10 +1,13 @@
 import React from 'react';
-import FontShow from '../FontShow';
+// import FontShow from '../FontShow';
+
 import { Download, Heart } from 'react-bootstrap-icons';
+
 
 class UserFont extends React.Component {
     constructor(props) {
         super(props);
+
         let FontShow = this.props.info;
     }
 
