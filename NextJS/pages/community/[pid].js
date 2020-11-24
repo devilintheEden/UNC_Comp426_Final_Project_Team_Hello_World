@@ -15,7 +15,7 @@ export default function ProjectDetail({ project }) {
 
     const [uid, setUID] = useState(-1)
     const [isLiked, setIsLiked] = useState(false)
-    const fontURL = `/Backend/Users/${userOwn}/Projects/${pid}/Output/${TTFname}.ttf`
+    const fontURL = 'http://localhost:8080' + `/Backend/Users/${userOwn}/Projects/${pid}/Output/${TTFname}.ttf`
 
     useEffect(() => {
 
@@ -72,7 +72,7 @@ export default function ProjectDetail({ project }) {
             <div className='mw9 center mt4 mb5'>
 
                 <div className='db pv4'>
-                    <img src={urls[1]} className='w-100' />
+                    <img src={'http://localhost:8080' + urls[1]} className='w-100' />
                 </div>
 
                 <div className='flex mt4'>
