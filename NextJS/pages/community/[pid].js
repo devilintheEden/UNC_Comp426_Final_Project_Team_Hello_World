@@ -41,6 +41,13 @@ export default function ProjectDetail({ project }) {
     const tagStyle = 'f4 br3 ba bw1 ph3 pv2 mb3 mr3 dib near-black fl di ttc'
 
     const handleLikeButton = function () {
+        let output = []
+        if (isLiked) {
+            output = likes.filter(id => id !== uid)
+        } else {
+            likes.push(uid)
+            output = likes
+        }
         fetch("/api/projectUpdate", {
             method: "POST",
             headers: {
@@ -48,12 +55,12 @@ export default function ProjectDetail({ project }) {
             },
             body: JSON.stringify({
                 pid: pid,
-                "publish.likes": likes.push(uid),
+                "publish.likes": output,
                 timeStamp: new Date(),
             }),
         }).then(res => {
             if (res.status == 200) {
-                setIsLiked(true)
+                isLiked ? setIsLiked(false) : setIsLiked(true)
             } else {
                 const likeButton = document.querySelector('#id')
                 const alert = document.createElement('div')
@@ -61,7 +68,7 @@ export default function ProjectDetail({ project }) {
                 alert.textContent = 'Sorry, cannot like the font now due to server issues.'
                 likeButton.appendChild(alert)
             }
-        })g
+        })
     }
 
     const handleDownloadButton = function () {
