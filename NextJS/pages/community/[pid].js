@@ -37,7 +37,7 @@ export default function ProjectDetail({ project }) {
         }
     }, [uid])
 
-    const buttonStyle = 'f4 link dim br3 ba bw1 ph3 pv2 mb2 dib near-black di mh3 pointer'
+    const buttonStyle = 'f4 link dim br3 ba bw1 ph3 pv2 mb2 dib near-black di mh3 pointer relative'
     const tagStyle = 'f4 br3 ba bw1 ph3 pv2 mb3 mr3 dib near-black fl di ttc'
 
     const handleLikeButton = function () {
@@ -51,7 +51,17 @@ export default function ProjectDetail({ project }) {
                 "publish.likes": likes.push(uid),
                 timeStamp: new Date(),
             }),
-        })
+        }).then(res => {
+            if (res.status == 200) {
+                setIsLiked(true)
+            } else {
+                const likeButton = document.querySelector('#id')
+                const alert = document.createElement('div')
+                alert.setAttribute('class', 'mt2 absolute left-0 bottom-0 f5')
+                alert.textContent = 'Sorry, cannot like the font now due to server issues.'
+                likeButton.appendChild(alert)
+            }
+        })g
     }
 
     const handleDownloadButton = function () {
@@ -92,7 +102,7 @@ export default function ProjectDetail({ project }) {
                     <div className='w-third right-column pl2'>
                         {/** buttons div */}
                         <div className='w-100 tr'>
-                            {uid >= 0 ? (<div className={buttonStyle} onClick={handleLikeButton}>
+                            {uid >= 0 ? (<div className={buttonStyle} id='like' onClick={handleLikeButton}>
                                 {isLiked ? <BookmarkHeartFill className='v-mid' /> : <BookmarkHeart className='v-mid' />}
                                 <a>{isLiked ? ' Unlike' : ' Like'}</a>
                             </div>) : <div className={buttonStyle} onClick={() => document.querySelector('.signin').click()}>Sign in to like this font</div>}
