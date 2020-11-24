@@ -18,8 +18,6 @@ export default function Search({ fonts, query }) {
     useEffect(() => {
         setUID(checkCookie())
         toggleAutoSuggestion()
-        const height = window.innerHeight
-        setStyle({ minHeight: height })
     }, [])
 
     return (
@@ -31,17 +29,23 @@ export default function Search({ fonts, query }) {
                 <meta name="google-signin-client_id" content="2632322765-1q6o3aucrg484d4poc95vbio3025hde9.apps.googleusercontent.com" />
                 <script src="https://apis.google.com/js/platform.js" async defer></script>
             </Head>
-            <Header key={uid} uid={uid} />
-            <SearchBar />
-            <Main>
-                <Title title={`Search results for "${query}"`} />
-                <div className='mt4' style={style}>
-                    {fonts.length == 0
-                        ? <div className='f2 gray'>Sorry, no matched font found in our community.</div>
-                        : <ItemsGrid col={1} row={8} type='font_in_community' infoList={fonts} />}
+            <div className='min-vh-100 relative'>
+                <Header key={uid} uid={uid} />
+                <SearchBar />
+                <Main>
+                    <Title title={`Search results for "${query.length > 15 ? query.slice(0, 16) + '...' : query}"`} />
+                    <div className='mt4'>
+                        {fonts.length == 0
+                            ? <div className='f2 gray'>Sorry, no matched font found in our community.</div>
+                            : <ItemsGrid col={1} row={8} type='font_in_community' infoList={fonts} />}
+                    </div>
+                </Main>
+                <div className='absolute bottom-0 w-100'>
+                    <Footer />
                 </div>
-            </Main>
-            <Footer />
+
+            </div>
+
         </>
     )
 }
@@ -59,6 +63,7 @@ export async function getServerSideProps(context) {
             "publish.published": true,
             projectName: new RegExp(query, 'i'),
         })
+        .sort({ last_modified: -1 })
         .toArray()
 
     return {

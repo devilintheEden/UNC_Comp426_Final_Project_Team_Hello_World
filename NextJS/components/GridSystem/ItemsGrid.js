@@ -16,6 +16,9 @@ export default function ItemsGrid(props) {
     const [currentPage, setCurrenPage] = useState(0)
     const [items, setItems] = useState([])
 
+
+
+
     const handlePageChange = function (pageIdx) {
         setCurrenPage(pageIdx)
     }
@@ -25,23 +28,23 @@ export default function ItemsGrid(props) {
     useEffect(() => {
         const start = (currentPage - 1) * col * row
         const end = Math.min(count, currentPage * col * row)
-        if (infoList.length > 0) setItems(infoList.slice(start, end))
-    }, [currentPage])
+        setItems(infoList.slice(start, end))
+    }, [currentPage, infoList])
 
 
 
     return (
-        <>
+        <div className='mv2'>
             <div className='flex flex-wrap w-100 mb5'>
                 {items.map(info =>
                     <SpecificItem
                         info={info}
                         width={1 / col}
-                        key={info}
+                        key={info.pid}
                     />)}
             </div>
             <Pagination num={pageNum} label={currentPage} onPageChange={handlePageChange} />
-        </>
+        </div>
     )
 
 

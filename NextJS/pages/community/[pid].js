@@ -41,7 +41,17 @@ export default function ProjectDetail({ project }) {
     const tagStyle = 'f4 br3 ba bw1 ph3 pv2 mb3 mr3 dib near-black fl di ttc'
 
     const handleLikeButton = function () {
-
+        fetch("/api/projectUpdate", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+            },
+            body: JSON.stringify({
+                pid: pid,
+                "publish.likes": likes.push(uid),
+                timeStamp: new Date(),
+            }),
+        })
     }
 
     const handleDownloadButton = function () {
@@ -62,8 +72,7 @@ export default function ProjectDetail({ project }) {
             <div className='mw9 center mt4 mb5'>
 
                 <div className='db pv4'>
-                    {/* <img src={urls[1]} className='w-100' /> */}
-                    <img src="https://placeholder.pics/svg/500x390/DEDEDE/555555/1" width='100%' />
+                    <img src={urls[1]} className='w-100' />
                 </div>
 
                 <div className='flex mt4'>
@@ -77,7 +86,7 @@ export default function ProjectDetail({ project }) {
                         <textarea
                             placeholder='Type something to try this font...'
                             rows='6'
-                            className='br4 f3 mt4 w-50 pa3 outline-0'
+                            className='br4 f2 mt4 w-100 pa3 outline-0'
                         ></textarea>
                     </div>
                     <div className='w-third right-column pl2'>
@@ -86,11 +95,11 @@ export default function ProjectDetail({ project }) {
                             {uid >= 0 ? (<div className={buttonStyle} onClick={handleLikeButton}>
                                 {isLiked ? <BookmarkHeartFill className='v-mid' /> : <BookmarkHeart className='v-mid' />}
                                 <a>{isLiked ? ' Unlike' : ' Like'}</a>
-                            </div>) : null}
+                            </div>) : <div className={buttonStyle} onClick={() => document.querySelector('.signin').click()}>Sign in to like this font</div>}
                             {license === 'Downloadable' ? (<div className={buttonStyle} onClick={handleDownloadButton}>
                                 <CloudArrowDown className='v-mid' />
                                 <a> Download</a>
-                            </div>) : null}
+                            </div>) : <div className={buttonStyle}>This font is copyrighted</div>}
                         </div>
                         {/** font stats */}
                         <div className='flex flex-wrap f3 w-100 mt4'>
@@ -111,7 +120,9 @@ export default function ProjectDetail({ project }) {
                     </div>
                 </div>
             </div>
-            <Footer />
+            <div className='absolute bottom-0 w-100'>
+                <Footer />
+            </div>
         </>
     )
 }

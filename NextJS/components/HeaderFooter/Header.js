@@ -89,7 +89,7 @@ export default class Header extends React.Component {
                             </Link>
                             {this.state.profilePicPath === null ? (
                                 <a
-                                    className="f6 fw4 hover-white no-underline white-70 dib ml2 pv2 ph3 ba"
+                                    className="signin f6 fw4 hover-white no-underline white-70 dib ml2 pv2 ph3 ba"
                                     onClick={this.toggleSignInPopup}
                                 >
                                     Sign In
