@@ -5,10 +5,12 @@ export default class EditUserProfile extends React.Component {
     constructor(props) {
         super(props);
         this.state = { selectedFile: null, msgInfo: { type: "", message: "" } };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSave = this.handleSave.bind(this);
+        // this.handleChange = this.handleChange.bind(this);
+        // this.handleSubmit = this.handleSubmit.bind(this);
     }
     
+    /*
     handleChange(event) {
         this.setState({ selectedFile: event.target.files[0]});
         this.setState({ msgInfo: { type: "", message: "" } });
@@ -35,6 +37,7 @@ export default class EditUserProfile extends React.Component {
         }
         event.preventDefault();
     }
+    */
 
     handleSave(event) {
         let name = document.getElementById("name").value;
@@ -58,27 +61,9 @@ export default class EditUserProfile extends React.Component {
             <article class="mw6 center bg-white br3 pa3 pa4-ns mv3 ba b--black-10">
                 <h1 class="f3 tc">Edit Profile</h1>
                 <div class="tc">
-                    <img src="https://placeholder.pics/svg/100x100" class="br-100 h3 w3 dib" title="Profile picture"></img> 
-                    <form className="mh2 ph2" onSubmit={this.handleSubmit}>
-                        <input class="center tc f6 ma1 pv3 ph2 dib black"                         
-                            type="file"
-                            name="file"
-                            accept="image/*" 
-                            onChange={this.handleChange}
-                        />
-                        <br />
-                        <input
-                            className="f6 ba mv2 pv1 dib black"
-                            type="submit"
-                            value="Upload Picture"
-                        />
-                    </form>
-                    <Messages
-                        type={this.state.msgInfo.type}
-                        message={this.state.msgInfo.message}
-                    />
+                    <img src={this.props.profile.profilePic} class="br-100 h3 w3 dib" title="Profile picture"></img> 
                 </div>
-
+                
                 <h1 class="f4">Name:</h1>
                 <input id="name" class="input-reset ba b--black-20 pa2 mb2 db w-100" type="text" aria-describedby="name-desc" defaultValue={this.props.profile.profileName || ''}></input>
                 <h1 class="f4 center">Bio:</h1>
