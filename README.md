@@ -1,5 +1,7 @@
 # UNC_Comp426_Final_Project_Team_Hello_World
 
+API Introduction Markdown: https://github.com/devilintheEden/UNC_Comp426_Final_Project_Team_Hello_World/blob/header/NextJS/API.markdown
+
 11.2.2020 Sign Up/Log in with email with verification code with MongoDB (+ header/footer)
 
 10.14.2020 Use CSS framework **Tachyons**, first UI with uploaded image show, full TTF download supported 
